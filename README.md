@@ -10,10 +10,10 @@ Aplikacji do automatyki przemysłowej. Umożliwiającej komunikacje poprzez modb
 # Overview
 
 Założenia jeśli chodzi o elementy na któreg będzie się składał projekt :
-*.NET MAUI
-*Onion Architecture
-*Entity Framework Core
-*ASP.NET Core 8.0 WebApi
-*Swagger
-*CQRS / Mediator Pattern using MediatR Library
-*CRUD Operations
+* .NET MAUI
+* Onion Architecture
+* Entity Framework Core
+* ASP.NET Core 8.0 WebApi
+* Swagger
+* CQRS / Mediator Pattern using MediatR Library
+* CRUD Operations
