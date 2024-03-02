@@ -7,8 +7,8 @@ Aplikacji do automatyki przemysłowej. Umożliwiającej komunikacje poprzez modb
 
 </div>
 <br/>
-# Overview
 
+## Overview
 Założenia jeśli chodzi o elementy na któreg będzie się składał projekt :
 *.NET MAUI
 *Onion Architecture
@@ -17,3 +17,30 @@ Założenia jeśli chodzi o elementy na któreg będzie się składał projekt :
 *Swagger
 *CQRS / Mediator Pattern using MediatR Library
 *CRUD Operations
+
+## Features
+
+### Must Have
+
+- [ ] Możliwość dodawania oraz modyfikowania definicji sterownika PLC
+- [ ] Pobieranie oraz zapis danych na sterowniki.
+- [ ] Zapis histori odczytanych danych
+- [ ] Generownie wykresów dla paramtrów sterownika.
+- [ ] Instalacja za pomocą docker
+
+### Nice to have
+
+
+## docker-compose
+Building Docker Image
+<br>
+` docker-compose build `
+<br>
+Running Docker Container
+<br>
+` docker-compose up -d `
+
+
+
+## License
+Distributed under the MIT License.
