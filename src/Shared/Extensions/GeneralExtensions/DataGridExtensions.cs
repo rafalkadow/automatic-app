@@ -39,7 +39,7 @@ namespace Shared.Extensions.GeneralExtensions
                 return statusList[(int)status];
             }
         }
-        public static string StatusTextGetDataGrid(this int status, Func<string, string, string> translateBaseFieldText = null)
+        public static string StatusTextGetDataGrid(this int status, Func<string, string, string>? translateBaseFieldText = null)
         {
             var statusList = new List<string>
             {
