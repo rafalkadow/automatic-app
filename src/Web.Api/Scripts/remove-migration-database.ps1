@@ -1,0 +1,1 @@
+﻿dotnet ef migrations remove  --project ../../Persistence/Persistence.csproj --startup-project ../../Web.Api/Web.Api.csproj --force
