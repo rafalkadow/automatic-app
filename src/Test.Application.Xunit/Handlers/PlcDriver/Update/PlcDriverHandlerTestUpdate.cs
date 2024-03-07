@@ -1,14 +1,14 @@
-﻿using Domain.Modules.CategoryOfProduct.Commands;
+﻿using Domain.Modules.PlcDriver.Commands;
 using Shared.Helpers;
-using Application.Modules.CategoryOfProduct.Update;
+using Application.Modules.PlcDriver.Update;
 using Test.Application.xUnit.Handlers.Base;
 
-namespace Test.Application.Xunit.Handlers.CategoryOfProduct.Update
+namespace Test.Application.Xunit.Handlers.PlcDriver.Update
 {
-    public class CategoryOfProductHandlerTestUpdate : BaseHandlerBase
+    public class PlcDriverHandlerTestUpdate : BaseHandlerBase
     {
 
-        public CategoryOfProductHandlerTestUpdate()
+        public PlcDriverHandlerTestUpdate()
         : base()
         {
         }
@@ -17,16 +17,16 @@ namespace Test.Application.Xunit.Handlers.CategoryOfProduct.Update
         [InlineData("00000000-0000-0000-0000-000000000001")]
         public void Handler_ReturnsSuccess_Update(string guid)
         {
-            var handler = new UpdateCategoryOfProductHandler(_dbContext, _mapper, userAccessor);
+            var handler = new UpdatePlcDriverHandler(_dbContext, _mapper, userAccessor);
             var generator = new RandomGenerator();
             var randomNumber = generator.RandomNumber(5, 100);
             var randomString = generator.RandomString(3);
 
-            var item = new UpdateCategoryOfProductCommand
+            var item = new UpdatePlcDriverCommand
             {
                 Id = new Guid(guid),
                 Name = randomString,
-                Code = randomString
+                Description = randomString
             };
 
             var result = handler.Handle(item, CancellationToken.None).Result;
@@ -41,16 +41,16 @@ namespace Test.Application.Xunit.Handlers.CategoryOfProduct.Update
         [InlineData("00000000-0000-0000-0000-000000000005")]
         public void Handler_Error_Update(string guid)
         {
-            var handler = new UpdateCategoryOfProductHandler(_dbContext, _mapper, userAccessor);
+            var handler = new UpdatePlcDriverHandler(_dbContext, _mapper, userAccessor);
             var generator = new RandomGenerator();
             var randomNumber = generator.RandomNumber(5, 100);
             var randomString = generator.RandomString(3);
 
-            var item = new UpdateCategoryOfProductCommand
+            var item = new UpdatePlcDriverCommand
             {
                 Id = new Guid(guid),
                 Name = randomString,
-                Code = randomString
+                Description = randomString
             };
 
             var result = handler.Handle(item, CancellationToken.None).Result;

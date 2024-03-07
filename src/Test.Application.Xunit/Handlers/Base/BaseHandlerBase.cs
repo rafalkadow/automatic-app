@@ -4,16 +4,16 @@ using Application.Utilities;
 using Domain.Interfaces;
 using Domain.Modules.Account;
 using Domain.Modules.Account.Consts;
-using Domain.Modules.CategoryOfProduct.Models;
+using Domain.Modules.PlcDriverGroup.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Domain.Modules.Base.Enums;
 using Persistence.Context;
 using Shared.Extensions.EnumExtensions;
 using Shared.Helpers;
-using Application.Modules.CategoryOfProduct.Mappings;
-using Domain.Modules.Product.Models;
-using Application.Modules.Product.Mappings;
+using Application.Modules.PlcDriverGroup.Mappings;
+using Domain.Modules.PlcDriver.Models;
+using Application.Modules.PlcDriver.Mappings;
 using Application.Modules.SignIn.Mappings;
 using Application.Extensions;
 
@@ -44,8 +44,8 @@ namespace Test.Application.xUnit.Handlers.Base
             {
                 config.AddProfile(new SignInProfile());
                 config.AddProfile(new AccountProfile());
-                config.AddProfile(new CategoryOfProductProfile());
-                config.AddProfile(new ProductProfile());
+                config.AddProfile(new PlcDriverGroupProfile());
+                config.AddProfile(new PlcDriverProfile());
             });
 
             _mapper = mapperConfiguration.CreateMapper();
@@ -83,46 +83,46 @@ namespace Test.Application.xUnit.Handlers.Base
             var generator = new RandomGenerator();
 
 
-            var testCategoryOfProduct = new List<CategoryOfProductModel>();
+            var testPlcDriverGroup = new List<PlcDriverGroupModel>();
 
             for (int i = 0; i < 100; i++)
             {
                 var randomString = generator.RandomString(3);
-                var item = new CategoryOfProductModel()
+                var item = new PlcDriverGroupModel()
                 {
                     Name = randomString,
-                    Code = randomString,
+                    Description = randomString,
                 };
 
                 if (i == 0)
                     item.Id = new Guid("00000000-0000-0000-0000-000000000001");
 
-                testCategoryOfProduct.Add(item);
+                testPlcDriverGroup.Add(item);
             }
 
-            _dbContext.CategoryOfProduct.AddRange(testCategoryOfProduct);
+            _dbContext.PlcDriverGroup.AddRange(testPlcDriverGroup);
             _dbContext.SaveChanges();
 
-            var testProduct = new List<ProductModel>();
+            var testPlcDriver = new List<PlcDriverModel>();
             int j = 0;
-            foreach (var item in _dbContext.CategoryOfProduct)
+            foreach (var item in _dbContext.PlcDriverGroup)
             {
                 var randomString = generator.RandomString(3);
-                var product = new ProductModel()
+                var product = new PlcDriverModel()
                 {
                     Name = randomString,
-                    Code = randomString,
-                    CategoryOfProductId = item.Id,
+                    Description = randomString,
+                    PlcDriverGroupId = item.Id,
                 };
 
                 if (j == 0)
                     product.Id = new Guid("00000000-0000-0000-0000-000000000001");
 
-                testProduct.Add(product);
+                testPlcDriver.Add(product);
                 j++;
             }
 
-            _dbContext.Product.AddRange(testProduct);
+            _dbContext.PlcDriver.AddRange(testPlcDriver);
 
             _dbContext.SaveChanges();
         }

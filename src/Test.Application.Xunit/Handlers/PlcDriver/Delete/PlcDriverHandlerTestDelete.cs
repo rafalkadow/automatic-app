@@ -1,13 +1,13 @@
-﻿using Domain.Modules.CategoryOfProduct.Commands;
-using Application.Modules.CategoryOfProduct.Delete;
+﻿using Domain.Modules.PlcDriver.Commands;
+using Application.Modules.PlcDriver.Delete;
 using Test.Application.xUnit.Handlers.Base;
 
-namespace Test.Application.Xunit.Handlers.CategoryOfProduct.Delete
+namespace Test.Application.Xunit.Handlers.PlcDriver.Delete
 {
-    public class CategoryOfProductHandlerTestDelete : BaseHandlerBase
+    public class PlcDriverHandlerTestDelete : BaseHandlerBase
     {
 
-        public CategoryOfProductHandlerTestDelete()
+        public PlcDriverHandlerTestDelete()
         : base()
         {
         }
@@ -16,9 +16,9 @@ namespace Test.Application.Xunit.Handlers.CategoryOfProduct.Delete
         [InlineData("00000000-0000-0000-0000-000000000001")]
         public void Handler_Success_Delete(string guid)
         {
-            var handler = new DeleteCategoryOfProductHandler(_dbContext, _mapper, userAccessor);
+            var handler = new DeletePlcDriverHandler(_dbContext, _mapper, userAccessor);
 
-            var item = new DeleteCategoryOfProductCommand
+            var item = new DeletePlcDriverCommand
             {
                 GuidList = new List<Guid> { new Guid(guid) },
             };
@@ -34,9 +34,9 @@ namespace Test.Application.Xunit.Handlers.CategoryOfProduct.Delete
         [InlineData("00000000-0000-0000-0000-000000000005")]
         public void Handler_Error_Delete(string guid)
         {
-            var handler = new DeleteCategoryOfProductHandler(_dbContext, _mapper, userAccessor);
+            var handler = new DeletePlcDriverHandler(_dbContext, _mapper, userAccessor);
 
-            var item = new DeleteCategoryOfProductCommand
+            var item = new DeletePlcDriverCommand
             {
                 GuidList = new List<Guid> { new Guid(guid) },
             };

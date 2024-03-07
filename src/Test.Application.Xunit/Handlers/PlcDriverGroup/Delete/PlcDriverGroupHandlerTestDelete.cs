@@ -1,13 +1,13 @@
-﻿using Domain.Modules.Product.Commands;
-using Application.Modules.Product.Delete;
+﻿using Domain.Modules.PlcDriverGroup.Commands;
+using Application.Modules.PlcDriverGroup.Delete;
 using Test.Application.xUnit.Handlers.Base;
 
-namespace Test.Application.Xunit.Handlers.Product.Delete
+namespace Test.Application.Xunit.Handlers.PlcDriverGroup.Delete
 {
-    public class ProductHandlerTestDelete : BaseHandlerBase
+    public class PlcDriverGroupHandlerTestDelete : BaseHandlerBase
     {
 
-        public ProductHandlerTestDelete()
+        public PlcDriverGroupHandlerTestDelete()
         : base()
         {
         }
@@ -16,9 +16,9 @@ namespace Test.Application.Xunit.Handlers.Product.Delete
         [InlineData("00000000-0000-0000-0000-000000000001")]
         public void Handler_Success_Delete(string guid)
         {
-            var handler = new DeleteProductHandler(_dbContext, _mapper, userAccessor);
+            var handler = new DeletePlcDriverGroupHandler(_dbContext, _mapper, userAccessor);
 
-            var item = new DeleteProductCommand
+            var item = new DeletePlcDriverGroupCommand
             {
                 GuidList = new List<Guid> { new Guid(guid) },
             };
@@ -34,9 +34,9 @@ namespace Test.Application.Xunit.Handlers.Product.Delete
         [InlineData("00000000-0000-0000-0000-000000000005")]
         public void Handler_Error_Delete(string guid)
         {
-            var handler = new DeleteProductHandler(_dbContext, _mapper, userAccessor);
+            var handler = new DeletePlcDriverGroupHandler(_dbContext, _mapper, userAccessor);
 
-            var item = new DeleteProductCommand
+            var item = new DeletePlcDriverGroupCommand
             {
                 GuidList = new List<Guid> { new Guid(guid) },
             };

@@ -1,16 +1,16 @@
-﻿using Application.Modules.Product.Create;
-using Domain.Modules.Product.Commands;
+﻿using Application.Modules.PlcDriver.Create;
+using Domain.Modules.PlcDriver.Commands;
 using Domain.Modules.Base.Models;
 using Shared.Enums;
 using FluentValidation.TestHelper;
 using Test.Application.xUnit.Handlers.Base;
 
-namespace Test.Application.Xunit.Handlers.Product.Validation
+namespace Test.Application.Xunit.Handlers.PlcDriver.Validation
 {
-    public class ProductHandlerTestValidation : BaseHandlerBase
+    public class PlcDriverHandlerTestValidation : BaseHandlerBase
     {
 
-        public ProductHandlerTestValidation()
+        public PlcDriverHandlerTestValidation()
         : base()
         {
         }
@@ -24,14 +24,14 @@ namespace Test.Application.Xunit.Handlers.Product.Validation
             // arrange
             var definitionModel = new DefinitionModel(OperationEnum.Create, userAccessor);
 
-            var model = new CreateProductCommand
+            var model = new CreatePlcDriverCommand
             {
                 Name = name,
-                Code = code,
-                CategoryOfProductId = _dbContext.CategoryOfProduct.First().Id,
+                Description = code,
+                PlcDriverGroupId = _dbContext.PlcDriverGroup.First().Id,
             };
 
-            var validator = new CreateProductValidation(_dbContext, definitionModel);
+            var validator = new CreatePlcDriverValidation(_dbContext, definitionModel);
 
             // act
             var result = validator.TestValidate(model);
@@ -50,14 +50,14 @@ namespace Test.Application.Xunit.Handlers.Product.Validation
             // arrange
             var definitionModel = new DefinitionModel(OperationEnum.Create, userAccessor);
 
-            var model = new CreateProductCommand
+            var model = new CreatePlcDriverCommand
             {
                 Name = name,
-                Code = code,
-                CategoryOfProductId = _dbContext.CategoryOfProduct.First().Id,
+                Description = code,
+                PlcDriverGroupId = _dbContext.PlcDriverGroup.First().Id,
             };
 
-            var validator = new CreateProductValidation(_dbContext, definitionModel);
+            var validator = new CreatePlcDriverValidation(_dbContext, definitionModel);
 
             // act
             var result = validator.TestValidate(model);

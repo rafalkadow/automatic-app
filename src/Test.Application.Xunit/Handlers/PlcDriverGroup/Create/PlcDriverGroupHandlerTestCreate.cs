@@ -1,14 +1,14 @@
-﻿using Application.Modules.CategoryOfProduct.Create;
-using Domain.Modules.CategoryOfProduct.Commands;
+﻿using Application.Modules.PlcDriverGroup.Create;
+using Domain.Modules.PlcDriverGroup.Commands;
 using Shared.Helpers;
 using Test.Application.xUnit.Handlers.Base;
 
-namespace Test.Application.Xunit.Handlers.CategoryOfProduct.Create
+namespace Test.Application.Xunit.Handlers.PlcDriverGroup.Create
 {
-    public class CategoryOfProductHandlerTestCreate : BaseHandlerBase
+    public class PlcDriverGroupHandlerTestCreate : BaseHandlerBase
     {
 
-        public CategoryOfProductHandlerTestCreate()
+        public PlcDriverGroupHandlerTestCreate()
         : base()
         {
         }
@@ -16,8 +16,8 @@ namespace Test.Application.Xunit.Handlers.CategoryOfProduct.Create
         [Fact]
         public async Task Handler_ReturnsSuccess_CreateAsync()
         {
-            var handler = new CreateCategoryOfProductHandler(_dbContext, _mapper, userAccessor);
-            int CategoryOfProductCount = _dbContext.CategoryOfProduct.Count();
+            var handler = new CreatePlcDriverGroupHandler(_dbContext, _mapper, userAccessor);
+            int PlcDriverGroupCount = _dbContext.PlcDriverGroup.Count();
             var generator = new RandomGenerator();
             var randomNumber = generator.RandomNumber(5, 100);
             
@@ -26,33 +26,33 @@ namespace Test.Application.Xunit.Handlers.CategoryOfProduct.Create
             for (int i = 0; i < countRecord; i++)
             {
                 var randomString = generator.RandomString(3);
-                var item = new CreateCategoryOfProductCommand
+                var item = new CreatePlcDriverGroupCommand
                 {
                     Name = randomString,
-                    Code = randomString,
+                    Description = randomString,
                 };
 
                 var result = await handler.Handle(item, CancellationToken.None);
                 Assert.True(result.OperationStatus);
             }
 
-            Assert.Equal(CategoryOfProductCount + countRecord, _dbContext.CategoryOfProduct.Count());
+            Assert.Equal(PlcDriverGroupCount + countRecord, _dbContext.PlcDriverGroup.Count());
         }
 
         [Theory]
         [InlineData("00000000-0000-0000-0000-000000000001")]
         public async Task Handler_ReturnsError_CreateAsync(string guid)
         {
-            var handler = new CreateCategoryOfProductHandler(_dbContext, _mapper, userAccessor);
+            var handler = new CreatePlcDriverGroupHandler(_dbContext, _mapper, userAccessor);
             var generator = new RandomGenerator();
             var randomNumber = generator.RandomNumber(5, 100);
             var randomString = generator.RandomString(3);
 
-            var item = new CreateCategoryOfProductCommand
+            var item = new CreatePlcDriverGroupCommand
             {
                 Id = new Guid(guid),
                 Name = randomString,
-                Code = randomString,
+                Description = randomString,
             };
             var exception = await Assert.ThrowsAnyAsync<Exception>(() => handler.Handle(item, CancellationToken.None));
             Assert.True(!string.IsNullOrEmpty(exception.Message));
@@ -64,16 +64,16 @@ namespace Test.Application.Xunit.Handlers.CategoryOfProduct.Create
         [InlineData("00000000-0000-0000-0000-000000000004")]
         public async Task Handler_ReturnsError2_CreateAsync(string guid)
         {
-            var handler = new CreateCategoryOfProductHandler(_dbContext, _mapper, userAccessor);
+            var handler = new CreatePlcDriverGroupHandler(_dbContext, _mapper, userAccessor);
             var generator = new RandomGenerator();
             var randomNumber = generator.RandomNumber(5, 100);
             var randomString = generator.RandomString(3);
 
-            var item = new CreateCategoryOfProductCommand
+            var item = new CreatePlcDriverGroupCommand
             {
                 Id = new Guid(guid),
                 Name = randomString,
-                Code = randomString,
+                Description = randomString,
             };
             var result = await handler.Handle(item, CancellationToken.None);
             Assert.True(result.OperationStatus);

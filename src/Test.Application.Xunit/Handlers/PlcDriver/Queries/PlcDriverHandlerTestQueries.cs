@@ -1,14 +1,14 @@
 ﻿using Shared.Helpers;
-using Application.Modules.Product.Queries;
-using Domain.Modules.Product.Queries;
+using Application.Modules.PlcDriver.Queries;
+using Domain.Modules.PlcDriver.Queries;
 using Test.Application.xUnit.Handlers.Base;
 
-namespace Test.Application.Xunit.Handlers.Product.Queries
+namespace Test.Application.Xunit.Handlers.PlcDriver.Queries
 {
-    public class ProductHandlerTestQueries : BaseHandlerBase
+    public class PlcDriverHandlerTestQueries : BaseHandlerBase
     {
 
-        public ProductHandlerTestQueries()
+        public PlcDriverHandlerTestQueries()
         : base()
         {
         }
@@ -17,9 +17,9 @@ namespace Test.Application.Xunit.Handlers.Product.Queries
         [InlineData("00000000-0000-0000-0000-000000000001")]
         public void Handler_ReturnsSuccess_GetId(string guid)
         {
-            var handler = new GetProductQueryByIdHandler(_dbContext, _mapper, userAccessor);
+            var handler = new GetPlcDriverQueryByIdHandler(_dbContext, _mapper, userAccessor);
 
-            var item = new GetProductQueryById(new Guid(guid));
+            var item = new GetPlcDriverQueryById(new Guid(guid));
 
             var result = handler.Handle(item, CancellationToken.None).Result;
             Assert.True(result.Id == new Guid(guid));
@@ -32,9 +32,9 @@ namespace Test.Application.Xunit.Handlers.Product.Queries
         [InlineData("00000000-0000-0000-0000-000000000005")]
         public void Handler_ReturnsError_GetId(string guid)
         {
-            var handler = new GetProductQueryByIdHandler(_dbContext, _mapper, userAccessor);
+            var handler = new GetPlcDriverQueryByIdHandler(_dbContext, _mapper, userAccessor);
 
-            var item = new GetProductQueryById(new Guid(guid));
+            var item = new GetPlcDriverQueryById(new Guid(guid));
 
             var result = handler.Handle(item, CancellationToken.None).Result;
             Assert.True(result == null);
@@ -43,9 +43,9 @@ namespace Test.Application.Xunit.Handlers.Product.Queries
         [Fact]
         public void Handler_ReturnsSuccess_GetAll()
         {
-            var handler = new GetProductQueryAllHandler(_dbContext, _mapper, userAccessor);
+            var handler = new GetPlcDriverQueryAllHandler(_dbContext, _mapper, userAccessor);
 
-            var item = new GetProductQueryAll();
+            var item = new GetPlcDriverQueryAll();
 
             var result = handler.Handle(item, CancellationToken.None).Result;
             Assert.True(result.Count() > 0);
@@ -54,11 +54,11 @@ namespace Test.Application.Xunit.Handlers.Product.Queries
         [Fact]
         public void Handler_ReturnsError_GetAll()
         {
-            var handler = new GetProductQueryAllHandler(_dbContext, _mapper, userAccessor);
+            var handler = new GetPlcDriverQueryAllHandler(_dbContext, _mapper, userAccessor);
             var generator = new RandomGenerator();
             var randomNumber = generator.RandomNumber(5, 100);
             var randomString = generator.RandomString(3);
-            var item = new GetProductQueryAll();
+            var item = new GetPlcDriverQueryAll();
             item.Name = randomString;
             var result = handler.Handle(item, CancellationToken.None).Result;
             Assert.True(result.Count() == 0);

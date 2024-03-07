@@ -1,14 +1,14 @@
 ﻿using Shared.Helpers;
-using Application.Modules.CategoryOfProduct.Queries;
-using Domain.Modules.CategoryOfProduct.Queries;
+using Application.Modules.PlcDriverGroup.Queries;
+using Domain.Modules.PlcDriverGroup.Queries;
 using Test.Application.xUnit.Handlers.Base;
 
-namespace Test.Application.Xunit.Handlers.CategoryOfProduct.Queries
+namespace Test.Application.Xunit.Handlers.PlcDriverGroup.Queries
 {
-    public class CategoryOfProductHandlerTestQueries : BaseHandlerBase
+    public class PlcDriverGroupHandlerTestQueries : BaseHandlerBase
     {
 
-        public CategoryOfProductHandlerTestQueries()
+        public PlcDriverGroupHandlerTestQueries()
         : base()
         {
         }
@@ -17,9 +17,9 @@ namespace Test.Application.Xunit.Handlers.CategoryOfProduct.Queries
         [InlineData("00000000-0000-0000-0000-000000000001")]
         public void Handler_ReturnsSuccess_GetId(string guid)
         {
-            var handler = new GetCategoryOfProductQueryByIdHandler(_dbContext, _mapper, userAccessor);
+            var handler = new GetPlcDriverGroupQueryByIdHandler(_dbContext, _mapper, userAccessor);
 
-            var item = new GetCategoryOfProductQueryById(new Guid(guid));
+            var item = new GetPlcDriverGroupQueryById(new Guid(guid));
 
             var result = handler.Handle(item, CancellationToken.None).Result;
             Assert.True(result.Id == new Guid(guid));
@@ -32,9 +32,9 @@ namespace Test.Application.Xunit.Handlers.CategoryOfProduct.Queries
         [InlineData("00000000-0000-0000-0000-000000000005")]
         public void Handler_ReturnsError_GetId(string guid)
         {
-            var handler = new GetCategoryOfProductQueryByIdHandler(_dbContext, _mapper, userAccessor);
+            var handler = new GetPlcDriverGroupQueryByIdHandler(_dbContext, _mapper, userAccessor);
 
-            var item = new GetCategoryOfProductQueryById(new Guid(guid));
+            var item = new GetPlcDriverGroupQueryById(new Guid(guid));
 
             var result = handler.Handle(item, CancellationToken.None).Result;
             Assert.True(result == null);
@@ -43,9 +43,9 @@ namespace Test.Application.Xunit.Handlers.CategoryOfProduct.Queries
         [Fact]
         public void Handler_ReturnsSuccess_GetAll()
         {
-            var handler = new GetCategoryOfProductQueryAllHandler(_dbContext, _mapper, userAccessor);
+            var handler = new GetPlcDriverGroupQueryAllHandler(_dbContext, _mapper, userAccessor);
 
-            var item = new GetCategoryOfProductQueryAll();
+            var item = new GetPlcDriverGroupQueryAll();
 
             var result = handler.Handle(item, CancellationToken.None).Result;
             Assert.True(result.Count() > 0);
@@ -54,11 +54,11 @@ namespace Test.Application.Xunit.Handlers.CategoryOfProduct.Queries
         [Fact]
         public void Handler_ReturnsError_GetAll()
         {
-            var handler = new GetCategoryOfProductQueryAllHandler(_dbContext, _mapper, userAccessor);
+            var handler = new GetPlcDriverGroupQueryAllHandler(_dbContext, _mapper, userAccessor);
             var generator = new RandomGenerator();
             var randomNumber = generator.RandomNumber(5, 100);
             var randomString = generator.RandomString(3);
-            var item = new GetCategoryOfProductQueryAll();
+            var item = new GetPlcDriverGroupQueryAll();
             item.Name = randomString;
             var result = handler.Handle(item, CancellationToken.None).Result;
             Assert.True(result.Count() == 0);
