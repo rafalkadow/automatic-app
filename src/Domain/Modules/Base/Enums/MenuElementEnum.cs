@@ -30,5 +30,6 @@ namespace Domain.Modules.Base.Enums
         PlcDriver,
 
         Error,
+        PlcParameter,
     }
 }
