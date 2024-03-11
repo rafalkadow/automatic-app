@@ -31,5 +31,6 @@ namespace Domain.Modules.Base.Enums
 
         Error,
         PlcParameter,
+        PlcParameterHistory,
     }
 }
