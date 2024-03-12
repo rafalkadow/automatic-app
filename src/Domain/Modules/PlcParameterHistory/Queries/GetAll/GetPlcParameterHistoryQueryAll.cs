@@ -4,7 +4,7 @@ using Shared.Interfaces;
 namespace Domain.Modules.PlcParameterHistory.Queries
 {
     [Serializable]
-    public class GetPlcParameterHistoryQueryAll : GetPlcParameterHistoryBaseFilter, IRequest<IEnumerable<GetPlcParameterHistoryResultAll>>, IQuery
+    public class GetPlcParameterHistoryQueryAll : GetPlcParameterHistoryBaseFilter, IRequest<IList<GetPlcParameterHistoryResultAll>>, IQuery
     {
     }
 }

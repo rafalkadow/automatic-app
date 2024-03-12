@@ -23,8 +23,8 @@ namespace Application.Modules.PlcDriver.Seeder
             logger.Info($"Data()");
             try
             {
-                var getHandlerPaymentAll = new GetPlcDriverGroupQueryAllHandler(DbContext, Mapper, UserAccessor);
-                var PlcDriverGroupList = await getHandlerPaymentAll.Handle(new GetPlcDriverGroupQueryAll(), CancellationToken.None);
+                var getHandlerAll = new GetPlcDriverGroupQueryAllHandler(DbContext, Mapper, UserAccessor);
+                var groupList = await getHandlerAll.Handle(new GetPlcDriverGroupQueryAll(), CancellationToken.None);
                 var commandHandlerPlcDriver = new CreatePlcDriverHandler(DbContext, Mapper, UserAccessor);
 
                 for (int i = 0; i < 100; i++)
@@ -33,8 +33,8 @@ namespace Application.Modules.PlcDriver.Seeder
                     var generator = new RandomGenerator();
 
                     var item = new CreatePlcDriverCommand() { Name = $"PlcDriver{i + 1}", Description = $"Description{i + 1}", };
-                    int PlcDriverGroupIndex = random.Next(maxValue: PlcDriverGroupList.Count);
-                    item.PlcDriverGroupId = PlcDriverGroupList[PlcDriverGroupIndex].Id;
+                    int groupIndex = random.Next(maxValue: groupList.Count);
+                    item.PlcDriverGroupId = groupList[groupIndex].Id;
                     
                     var result = await commandHandlerPlcDriver.Handle(item, CancellationToken.None);
                     if (!result.OperationStatus)

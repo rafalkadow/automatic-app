@@ -4,7 +4,7 @@ using Shared.Interfaces;
 namespace Domain.Modules.DictionaryOfParameterInterval.Queries
 {
     [Serializable]
-    public class GetDictionaryOfParameterIntervalQueryAll : GetDictionaryOfParameterIntervalBaseFilter, IRequest<IEnumerable<GetDictionaryOfParameterIntervalResultAll>>, IQuery
+    public class GetDictionaryOfParameterIntervalQueryAll : GetDictionaryOfParameterIntervalBaseFilter, IRequest<IList<GetDictionaryOfParameterIntervalResultAll>>, IQuery
     {
     }
 }
