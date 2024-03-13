@@ -17,7 +17,7 @@ namespace Application.Modules.PlcDriver.Create
             RuleFor(u => u.Id).Cascade(CascadeMode.Stop)
                    .NotEmpty().NotNull().WithMessage("Enter the field value 'Id'")
                    .Must(UniqueId)
-                   .WithMessage("The 'Name' field must be unique");
+                   .WithMessage("The 'Id' field must be unique");
 
             RuleFor(u => u.Name).Cascade(CascadeMode.Stop)
                    .NotEmpty().WithMessage("Enter the field value 'Name'")

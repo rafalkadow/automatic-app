@@ -1,19 +1,19 @@
 ﻿using AutoMapper;
 using Domain.Interfaces;
-using Domain.Modules.PlcParameter.Commands;
+using Domain.Modules.PlcParameterHistory.Commands;
 using Shared.Models;
 using Application.Modules.Base.Seeder;
-using Application.Modules.PlcParameter.Create;
+using Application.Modules.PlcParameterHistory.Create;
 using Application.Modules.PlcDriver.Queries;
 using Domain.Modules.PlcDriver.Queries;
 using Shared.Helpers;
 
-namespace Application.Modules.PlcParameter.Seeder
+namespace Application.Modules.PlcParameterHistory.Seeder
 {
     [Serializable]
-    public class PlcParameterSeederData : BaseSeederClass
+    public class PlcParameterHistorySeederData : BaseSeederClass
     {
-        public PlcParameterSeederData(IDbContext dbContext, IMapper mapper, IUserAccessor userAccessor)
+        public PlcParameterHistorySeederData(IDbContext dbContext, IMapper mapper, IUserAccessor userAccessor)
             : base(dbContext, mapper, userAccessor)
         {
         }
@@ -25,18 +25,18 @@ namespace Application.Modules.PlcParameter.Seeder
             {
                 var getHandlerAll = new GetPlcDriverQueryAllHandler(DbContext, Mapper, UserAccessor);
                 var groupList = await getHandlerAll.Handle(new GetPlcDriverQueryAll(), CancellationToken.None);
-                var commandHandlerPlcParameter = new CreatePlcParameterHandler(DbContext, Mapper, UserAccessor);
+                var commandHandlerPlcParameterHistory = new CreatePlcParameterHistoryHandler(DbContext, Mapper, UserAccessor);
 
                 for (int i = 0; i < 100; i++)
                 {
                     var random = new Random();
                     var generator = new RandomGenerator();
 
-                    var item = new CreatePlcParameterCommand() { Name = $"PlcParameter{i + 1}", };
+                    var item = new CreatePlcParameterHistoryCommand() { Name = $"PlcParameterHistory{i + 1}", };
                     int index = random.Next(maxValue: groupList.Count);
-                    item.PlcDriverId = groupList[index].Id;
+                    item.PlcParameterId = groupList[index].Id;
                     
-                    var result = await commandHandlerPlcParameter.Handle(item, CancellationToken.None);
+                    var result = await commandHandlerPlcParameterHistory.Handle(item, CancellationToken.None);
                     if (!result.OperationStatus)
                         return result;
                 }

@@ -1,17 +1,17 @@
 ﻿using Application.Modules.Base.Validations;
 using Domain.Modules.Base.Models;
-using Domain.Modules.PlcParameter.Commands;
-using Domain.Modules.PlcParameter.Models;
+using Domain.Modules.PlcParameterHistory.Commands;
+using Domain.Modules.PlcParameterHistory.Models;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using Domain.Interfaces;
 
-namespace Application.Modules.PlcParameter.Create
+namespace Application.Modules.PlcParameterHistory.Create
 {
     [Serializable]
-    public class CreatePlcParameterValidation : BaseValidation<CreatePlcParameterCommand>
+    public class CreatePlcParameterHistoryValidation : BaseValidation<CreatePlcParameterHistoryCommand>
     {
-        public CreatePlcParameterValidation(IDbContext dbContext, IDefinitionModel definitionModel)
+        public CreatePlcParameterHistoryValidation(IDbContext dbContext, IDefinitionModel definitionModel)
             : base(dbContext, definitionModel)
         {
             RuleFor(u => u.Id).Cascade(CascadeMode.Stop)
@@ -26,22 +26,22 @@ namespace Application.Modules.PlcParameter.Create
                    .WithMessage("The 'Name' field must be unique");
 
         
-            RuleFor(u => u.PlcDriverId).Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("Enter the field value 'PlcDriverId'");
+            RuleFor(u => u.PlcParameterId).Cascade(CascadeMode.Stop)
+                .NotEmpty().WithMessage("Enter the field value 'PlcParameterId'");
 
         }
 
-        private bool UniqueId(BasePlcParameterCommand model, Guid? Id)
+        private bool UniqueId(BasePlcParameterHistoryCommand model, Guid? Id)
         {
             var result = false;
-            result = !DbContext.GetQueryable<PlcParameterModel>().AsNoTracking().Any(u => u.Id == Id);
+            result = !DbContext.GetQueryable<PlcParameterHistoryModel>().AsNoTracking().Any(u => u.Id == Id);
             return result;
         }
 
-        private bool UniqueName(BasePlcParameterCommand model, string name)
+        private bool UniqueName(BasePlcParameterHistoryCommand model, string name)
         {
             var result = false;
-            result = !DbContext.GetQueryable<PlcParameterModel>().AsNoTracking().Any(u => u.Id != model.Id && u.Name == name);
+            result = !DbContext.GetQueryable<PlcParameterHistoryModel>().AsNoTracking().Any(u => u.Id != model.Id && u.Name == name);
             return result;
         }
     }
