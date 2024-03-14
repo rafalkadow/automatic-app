@@ -1,7 +1,6 @@
 ﻿using Domain.Modules.Base.Models;
 using Domain.Modules.Base.Validations;
 using Domain.Modules.Base.ViewModels;
-using Domain.Modules.PlcDriver.Models;
 using Domain.Modules.DictionaryOfParameterInterval.Values;
 
 namespace Domain.Modules.DictionaryOfParameterInterval.ViewModels
@@ -9,12 +8,9 @@ namespace Domain.Modules.DictionaryOfParameterInterval.ViewModels
     public class DictionaryOfParameterIntervalViewModel : ValueViewModel
     {
         #region Fields
-        public Guid PlcDriverId { get; set; }
-
-        public virtual PlcDriverModel PlcDriver { get; set; }
         public string? Name { get; set; }
-        public string? Address { get; set; }
-        public int Type { get; set; }
+        public string? Code { get; set; }
+        public int Value { get; set; }
 
         #endregion Fields
 

@@ -5,7 +5,6 @@ using Shared.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Domain.Modules.PlcDriver.Models;
 
 namespace Domain.Modules.DictionaryOfParameterInterval.Models
 {
@@ -20,16 +19,13 @@ namespace Domain.Modules.DictionaryOfParameterInterval.Models
 		#region Fields
 
         [Required]
-        [ForeignKey("PlcDriverId")]
-        public Guid PlcDriverId { get; set; }
-
-        public virtual PlcDriverModel PlcDriver { get; set; }
-        [Required]
         [StringLength(50)]
         public string? Name { get; set; }
 
-        public string? Address { get; set; }
-        public int Type { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string? Code { get; set; }
+        public int Value { get; set; }
 
         #endregion Fields
     }
