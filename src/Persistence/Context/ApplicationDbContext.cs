@@ -11,6 +11,9 @@ using Shared.Interfaces;
 using Shared.Helpers;
 using Domain.Modules.PlcDriver.Models;
 using Microsoft.Extensions.Logging;
+using Domain.Modules.PlcParameterHistory.Models;
+using Domain.Modules.PlcParameter.Models;
+using Domain.Modules.DictionaryOfParameterInterval.Models;
 
 namespace Persistence.Context
 {
@@ -20,13 +23,16 @@ namespace Persistence.Context
         public DbSet<AccountModel> Account { get; set; }
         public DbSet<PlcDriverGroupModel> PlcDriverGroup { get; set; }
         public DbSet<PlcDriverModel> PlcDriver { get; set; }
+        public DbSet<DictionaryOfParameterIntervalModel> DictionaryOfParameterInterval { get; set; }
+        public DbSet<PlcParameterModel> PlcParameter { get; set; }
+        public DbSet<PlcParameterHistoryModel> PlcParameterHistory { get; set; }
 
         private ILogger<ApplicationDbContext> _logger { get; set; }
 
         private IUserAccessor _userAccessor { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="options" /> class.
+        /// Constructor class.
         /// </summary>
         public ApplicationDbContext(DbContextOptions options, ILogger<ApplicationDbContext> logger, IUserAccessor userAccessor)
             : base(options)
