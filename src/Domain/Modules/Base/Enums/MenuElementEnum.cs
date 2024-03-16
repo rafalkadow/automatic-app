@@ -33,5 +33,6 @@ namespace Domain.Modules.Base.Enums
         PlcParameter,
         PlcParameterHistory,
         DictionaryOfParameterInterval,
+        DictionaryOfParameterCategory,
     }
 }
