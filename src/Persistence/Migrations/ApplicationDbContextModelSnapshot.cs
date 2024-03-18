@@ -18,7 +18,7 @@ namespace Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .UseCollation("SQL_Latin1_General_CP1250_CS_AS")
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("PlcDriverVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -133,7 +133,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Audits");
+                    b.ToTable("Audits", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Modules.PlcDriver.Models.PlcDriverModel", b =>
@@ -141,6 +141,10 @@ namespace Persistence.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("CreatedOnDateTimeUTC")
                         .HasColumnType("datetime2");
@@ -152,15 +156,11 @@ namespace Persistence.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<DateTime>("DateTimeFromUtc")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("DeviceAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DevicePort")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("DateTimeToUtc")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("ModifiedOnDateTimeUTC")
                         .HasColumnType("datetime2");
@@ -187,11 +187,9 @@ namespace Persistence.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
-                    b.Property<int>("SlaveId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TimeOut")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Value")
+                        .HasPrecision(18, 6)
+                        .HasColumnType("decimal(18,6)");
 
                     b.HasKey("Id");
 
@@ -211,6 +209,10 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Code")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<DateTime?>("CreatedOnDateTimeUTC")
                         .HasColumnType("datetime2");
 
@@ -220,10 +222,6 @@ namespace Persistence.Migrations
                     b.Property<string>("CreatedUserName")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("ModifiedOnDateTimeUTC")
                         .HasColumnType("datetime2");
