@@ -275,22 +275,4 @@ namespace Persistence.Context
             }
         }
     }
-
-
-    //public class UtcValueConverter : ValueConverter<DateTime, DateTime>
-    //{
-    //    public UtcValueConverter()
-    //        : base(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc))
-    //    {
-    //    }
-    //}
-
-
-    //public class UtcValueNullConverter : ValueConverter<DateTime?, DateTime?>
-    //{
-    //    public UtcValueNullConverter()
-    //        : base(v => v, v => v.HasValue ? v.Value.FromDefaultTimeZoneToUtc() : v)
-    //    {
-    //    }
-    //}
 }
