@@ -34,5 +34,6 @@ namespace Domain.Modules.Base.Enums
         PlcParameterHistory,
         DictionaryOfParameterInterval,
         DictionaryOfParameterCategory,
+        PlcDriverAlarm,
     }
 }
