@@ -15,6 +15,7 @@ using Domain.Modules.PlcParameterHistory.Models;
 using Domain.Modules.PlcParameter.Models;
 using Domain.Modules.DictionaryOfParameterInterval.Models;
 using Domain.Modules.DictionaryOfParameterCategory.Models;
+using Domain.Modules.PlcDriverAlarm.Models;
 
 namespace Persistence.Context
 {
@@ -31,10 +32,12 @@ namespace Persistence.Context
         public DbSet<PlcParameterModel> PlcParameter { get; set; }
         public DbSet<PlcParameterHistoryModel> PlcParameterHistory { get; set; }
 
+        public DbSet<PlcDriverAlarmModel> PlcDriverAlarm { get; set; }
+
+
         private ILogger<ApplicationDbContext> _logger { get; set; }
 
         private IUserAccessor _userAccessor { get; set; }
-
         /// <summary>
         /// Constructor class.
         /// </summary>
