@@ -26,8 +26,8 @@ namespace Shared.Enums
 		[Description("Active")]
 		Active,
 
-		[Description("InActive")]
-		InActive,
+		[Description("Inactive")]
+		Inactive,
 
 		[Description("Archive")]
 		Archive,

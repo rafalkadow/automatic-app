@@ -1,8 +1,10 @@
 ﻿using Application.Extensions;
+using Application.Utilities;
 using AutoMapper;
 using Domain.Interfaces;
 using Domain.Modules.Base.App;
 using Domain.Modules.Base.Commands;
+using Domain.Modules.Base.Enums;
 using Domain.Modules.Base.Models;
 using Microsoft.EntityFrameworkCore;
 using Shared.Enums;
@@ -63,23 +65,42 @@ namespace Application.Modules.Base.Commands
 
                 if (model == null || model.Id == Guid.Empty)
                 {
-                    return new OperationResult(false, "Nie odnaleziono modelu", OperationEnum.Update);
+                    return new OperationResult(false, "Not found module", OperationEnum.Update);
                 }
-                else if (operation == OperationEnum.Delete)
+                else if (operation == OperationEnum.Active)
                 {
-
-                    var resultValid = new OperationResult(true);
-                    if (resultValid.OperationStatus)
-                    {
-                        await DbContext.DeleteAsync(model);
-                        await DbContext.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        return resultValid;
-                    }
-
-                    return new OperationResult(true, "", OperationEnum.Delete);
+                    var result = await ActiveMethod(model);
+                    return result;
+                }
+                else if (operation == OperationEnum.Inactive)
+                {
+                    var result = await InactiveMethod(model);
+                    return result;
+                }
+                else if (operation == OperationEnum.Archive)
+                {
+                    var result = await ArchiveMethod(model);
+                    return result;
+                }
+                else if (operation == OperationEnum.Up)
+                {
+                    var result = await UpMethod(condition, controllerName, model);
+                    return result;
+                }
+                else if (operation == OperationEnum.Down)
+                {
+                    var result = await DownMethod(condition, controllerName, model);
+                    return result;
+                }
+                else if (operation == OperationEnum.First)
+                {
+                    var result = await FirstMethod(condition, controllerName, model);
+                    return result;
+                }
+                else if (operation == OperationEnum.Last)
+                {
+                    var result = await LastMethod(condition, controllerName, model);
+                    return result;
                 }
                 else
                 {
@@ -92,6 +113,106 @@ namespace Application.Modules.Base.Commands
                 throw;
             }
         }
+
+        private async Task<OperationResult> ActiveMethod<T>(T model) where T : class, IEntity
+        {
+            var command = new BaseActiveCommand
+            {
+                RecordStatus = RecordStatusEnum.Actived
+            };
+            await DbContext.UpdatePropertiesAsync(model, command, UserAccessor);
+            return new OperationResult(true);
+        }
+
+        private async Task<OperationResult> InactiveMethod<T>(T model) where T : class, IEntity
+        {
+            var command = new BaseInactiveCommand
+            {
+                RecordStatus = RecordStatusEnum.Inactived
+            };
+            await DbContext.UpdatePropertiesAsync(model, command, UserAccessor);
+            return new OperationResult(true);
+        }
+
+        private async Task<OperationResult> ArchiveMethod<T>(T model) where T : class, IEntity
+        {
+            var command = new BaseArchiveCommand
+            {
+                RecordStatus = RecordStatusEnum.Archived
+            };
+            await DbContext.UpdatePropertiesAsync(model, command, UserAccessor);
+            return new OperationResult(true);
+        }
+
+
+        private async Task<OperationResult> UpMethod<T>(Func<T, bool> condition, string controllerName, T model) where T : class, IEntity
+        {
+            IQueryable<T> iQuery = (IQueryable<T>)DbContext.GetQueryable<T>().AsNoTracking();
+            if (condition != null)
+                iQuery = DbContext.GetQueryable<T>().AsNoTracking().Where(condition).AsQueryable();
+
+            var orderSort = OrderSortEnum.Desc;
+ 
+
+            var command = new BaseUpCommand
+            {
+                OrderId = await ChangeOrderId(iQuery, model, OrderIdDirectionEnum.Up, orderSort),
+            };
+            await DbContext.UpdatePropertiesAsync(model, command, UserAccessor);
+
+            return new OperationResult(true);
+        }
+
+        private async Task<OperationResult> DownMethod<T>(Func<T, bool> condition, string controllerName, T model) where T : class, IEntity
+        {
+            IQueryable<T> iQuery = (IQueryable<T>)DbContext.GetQueryable<T>().AsNoTracking();
+            if (condition != null)
+                iQuery = DbContext.GetQueryable<T>().AsNoTracking().Where(condition).AsQueryable();
+
+            var orderSort = OrderSortEnum.Desc;
+
+            var command = new BaseDownCommand
+            {
+                OrderId = await ChangeOrderId(iQuery, model, OrderIdDirectionEnum.Down, orderSort),
+            };
+            await DbContext.UpdatePropertiesAsync(model, command, UserAccessor);
+
+            return new OperationResult(true);
+        }
+
+        private async Task<OperationResult> FirstMethod<T>(Func<T, bool> condition, string controllerName, T model) where T : class, IEntity
+        {
+            IQueryable<T> iQuery = (IQueryable<T>)DbContext.GetQueryable<T>().AsNoTracking();
+            if (condition != null)
+                iQuery = DbContext.GetQueryable<T>().AsNoTracking().Where(condition).AsQueryable();
+
+            var orderSort = OrderSortEnum.Desc;
+ 
+            var command = new BaseUpCommand
+            {
+                OrderId = await ChangeOrderId(iQuery, model, OrderIdDirectionEnum.First, orderSort),
+            };
+            await DbContext.UpdatePropertiesAsync(model, command, UserAccessor);
+            return new OperationResult(true);
+        }
+
+        private async Task<OperationResult> LastMethod<T>(Func<T, bool> condition, string controllerName, T model) where T : class, IEntity
+        {
+            IQueryable<T> iQuery = (IQueryable<T>)DbContext.GetQueryable<T>().AsNoTracking();
+            if (condition != null)
+                iQuery = DbContext.GetQueryable<T>().AsNoTracking().Where(condition).AsQueryable();
+
+            var orderSort = OrderSortEnum.Desc;
+         
+            var command = new BaseDownCommand
+            {
+                OrderId = await ChangeOrderId(iQuery, model, OrderIdDirectionEnum.Last, orderSort),
+            };
+            await DbContext.UpdatePropertiesAsync(model, command, UserAccessor);
+            return new OperationResult(true);
+        }
+
+
 
         public Task<ulong> GetOrderIdForTable<T>(T model) where T : class, IEntity
         {
@@ -132,17 +253,7 @@ namespace Application.Modules.Base.Commands
                 .CountAsync() > 0 ? await queryableBaseModel.AsNoTracking().MaxAsync(u => u.OrderId) : 0;
         }
 
-        private async Task<ulong> GetOrderIdForGuid(IQueryable<BaseModel> queryableBaseModel, IEntity model)
-        {
-            ulong orderId = 0;
-            var foundElement = GetElementByGuid(queryableBaseModel, model);
-            if (foundElement != null && await foundElement.FirstOrDefaultAsync() != null)
-            {
-                var foundOrderId = await foundElement.AsNoTracking().FirstOrDefaultAsync();
-                orderId = foundOrderId.OrderId;
-            }
-            return orderId;
-        }
+  
 
         private IQueryable<IEntity> GetElementByGuid(IQueryable<BaseModel> queryableBaseModel, IEntity model)
         {
@@ -155,6 +266,175 @@ namespace Application.Modules.Base.Commands
             {
                 baseCommand.OrderId = model.OrderId;
             }
+        }
+
+
+        public async Task<ulong> ChangeOrderId<T>(IQueryable<T> ts, T model, OrderIdDirectionEnum operation, OrderSortEnum orderSort = OrderSortEnum.Desc) where T : class, IEntity
+        {
+            ulong orderId = GetOrderIdForGuid(ts, model);
+
+            if (ts == null)
+                return 0;
+
+            IQueryable<BaseModel> foundElement;
+
+            if (orderSort == OrderSortEnum.Asc)
+            {
+                switch (operation)
+                {
+                    case OrderIdDirectionEnum.Down:
+                        operation = OrderIdDirectionEnum.Up;
+                        break;
+
+                    case OrderIdDirectionEnum.Last:
+                        operation = OrderIdDirectionEnum.First;
+                        break;
+
+                    case OrderIdDirectionEnum.Up:
+                        operation = OrderIdDirectionEnum.Down;
+                        break;
+
+                    case OrderIdDirectionEnum.First:
+                        operation = OrderIdDirectionEnum.Last;
+                        break;
+
+                    default:
+                        return orderId;
+                }
+            }
+
+            switch (operation)
+            {
+                case OrderIdDirectionEnum.Down:
+                    foundElement = (IQueryable<BaseModel>)ts.Where(u => u.OrderId < orderId).OrderByDescending(x => x.OrderId);
+                    break;
+
+                case OrderIdDirectionEnum.Last:
+                    foundElement = (IQueryable<BaseModel>)ts.Where(u => u.OrderId < orderId).OrderByDescending(x => x.OrderId);
+                    break;
+
+                case OrderIdDirectionEnum.Up:
+                    foundElement = (IQueryable<BaseModel>)ts.Where(u => u.OrderId > orderId).OrderBy(x => x.OrderId);
+                    break;
+
+                case OrderIdDirectionEnum.First:
+                    foundElement = (IQueryable<BaseModel>)ts.Where(u => u.OrderId > orderId).OrderByDescending(x => x.OrderId);
+                    break;
+
+                default:
+                    return orderId;
+            }
+
+            if (foundElement.Count() == 0)
+                return orderId;
+
+            ulong orderIdReturn = 0;
+
+            if (operation == OrderIdDirectionEnum.First)
+            {
+                var listElement = foundElement.ToList();
+                var elementFirst = listElement.FirstOrDefault();
+                if (elementFirst != null)
+                {
+                    orderIdReturn = elementFirst.OrderId;
+                }
+
+                for (int i = 0; i < listElement.Count; i++)
+                {
+                    var element = listElement[i];
+
+                    if (element != null)
+                    {
+                        ulong newOrderId = 0;
+                        if (i < listElement.Count - 1)
+                        {
+                            newOrderId = listElement[i + 1].OrderId;
+                        }
+                        else
+                        {
+                            newOrderId = orderId;
+                        }
+
+                        var command = new BaseUpDownCommand()
+                        {
+                            OrderId = newOrderId,
+                        };
+                        await DbContext.UpdatePropertiesAsync(element, command, UserAccessor);
+                    }
+                }
+            }
+            else if (operation == OrderIdDirectionEnum.Last)
+            {
+                var listElement = foundElement.ToList();
+                var elementLast = listElement.LastOrDefault();
+                if (elementLast != null)
+                {
+                    orderIdReturn = elementLast.OrderId;
+                }
+
+                for (int i = listElement.Count - 1; i >= 0; i--)
+                {
+                    var element = listElement[i];
+
+                    if (element != null)
+                    {
+                        ulong newOrderId = 0;
+                        if (i > 0)
+                        {
+                            newOrderId = listElement[i - 1].OrderId;
+                        }
+                        else
+                        {
+                            newOrderId = orderId;
+                        }
+
+                        var command = new BaseUpDownCommand()
+                        {
+                            OrderId = newOrderId,
+                        };
+                        await DbContext.UpdatePropertiesAsync(element, command, UserAccessor);
+                    }
+                }
+            }
+            else
+            {
+                var element = foundElement.FirstOrDefault();
+                if (element != null)
+                {
+                    orderIdReturn = element.OrderId;
+                    var command = new BaseUpDownCommand()
+                    {
+                        OrderId = orderId,
+                    };
+                    await DbContext.UpdatePropertiesAsync(element, command, UserAccessor);
+                }
+            }
+
+            return orderIdReturn;
+        }
+
+        private ulong GetOrderIdForGuid<T>(IQueryable<T> ts, T model) where T : class, IEntity
+        {
+            ulong orderId = 0;
+            var foundElement = GetElementByGuid(ts, model);
+            if (foundElement != null && foundElement.FirstOrDefault() != null)
+                orderId = foundElement.FirstOrDefault().OrderId;
+            return orderId;
+        }
+        private IQueryable<T> GetElementByGuid<T>(IQueryable<T> ts, T model) where T : class, IEntity
+        {
+            return ts?.Where(u => u.Id == model.Id);
+        }
+        private async Task<ulong> GetOrderIdForGuid(IQueryable<BaseModel> queryableBaseModel, IEntity model)
+        {
+            ulong orderId = 0;
+            var foundElement = GetElementByGuid(queryableBaseModel, model);
+            if (foundElement != null && await foundElement.FirstOrDefaultAsync() != null)
+            {
+                var foundOrderId = await foundElement.AsNoTracking().FirstOrDefaultAsync();
+                orderId = foundOrderId.OrderId;
+            }
+            return orderId;
         }
     }
 

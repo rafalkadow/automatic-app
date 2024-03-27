@@ -8,7 +8,7 @@ namespace Domain.Modules.Base.Commands
     {
         public Guid? Id { get; set; }
 
-        public RecordStatusEnum RecordStatus { get; set; } = RecordStatusEnum.Actived;
+        public RecordStatusEnum RecordStatus { get; set; }
 
         [SwaggerIgnore]
         public ulong OrderId { get; set; }
