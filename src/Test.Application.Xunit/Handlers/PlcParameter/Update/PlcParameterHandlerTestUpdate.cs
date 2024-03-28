@@ -26,7 +26,7 @@ namespace Test.Application.Xunit.Handlers.PlcParameter.Update
             {
                 Id = new Guid(guid),
                 Name = randomString,
-                Address = randomString
+                Address = randomNumber
             };
 
             var result = handler.Handle(item, CancellationToken.None).Result;
@@ -50,7 +50,7 @@ namespace Test.Application.Xunit.Handlers.PlcParameter.Update
             {
                 Id = new Guid(guid),
                 Name = randomString,
-                Address = randomString
+                Address = randomNumber
             };
 
             var result = handler.Handle(item, CancellationToken.None).Result;

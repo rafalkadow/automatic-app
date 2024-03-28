@@ -16,10 +16,10 @@ namespace Test.Application.Xunit.Handlers.PlcParameter.Validation
         }
 
         [Theory]
-        [InlineData("name1", "")]
-        [InlineData("", "code2")]
-        [InlineData("", "")]
-        public void Validate_Error(string name, string address)
+        [InlineData("name1", 100)]
+        [InlineData("", 200)]
+        [InlineData("", 300)]
+        public void Validate_Error(string name, int address)
         {
             // arrange
             var definitionModel = new DefinitionModel(OperationEnum.Create, userAccessor);
@@ -40,11 +40,11 @@ namespace Test.Application.Xunit.Handlers.PlcParameter.Validation
 
 
         [Theory]
-        [InlineData("name1", "code1")]
-        [InlineData("name2", "code2")]
-        [InlineData("name3", "code3")]
-        [InlineData("name4", "code4")]
-        public void Validate_Success(string name, string address)
+        [InlineData("name1", 100)]
+        [InlineData("name2", 100)]
+        [InlineData("name3", 100)]
+        [InlineData("name4", 100)]
+        public void Validate_Success(string name, int address)
         {
             // arrange
             var definitionModel = new DefinitionModel(OperationEnum.Create, userAccessor);

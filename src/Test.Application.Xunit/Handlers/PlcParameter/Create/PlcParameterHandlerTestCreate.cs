@@ -29,7 +29,7 @@ namespace Test.Application.Xunit.Handlers.PlcParameter.Create
                 var item = new CreatePlcParameterCommand
                 {
                     Name = randomString,
-                    Address = randomString,
+                    Address = randomNumber,
                 };
 
                 var result = await handler.Handle(item, CancellationToken.None);
@@ -52,7 +52,7 @@ namespace Test.Application.Xunit.Handlers.PlcParameter.Create
             {
                 Id = new Guid(guid),
                 Name = randomString,
-                Address = randomString,
+                Address = randomNumber,
             };
             var exception = await Assert.ThrowsAnyAsync<Exception>(() => handler.Handle(item, CancellationToken.None));
             Assert.True(!string.IsNullOrEmpty(exception.Message));
@@ -73,7 +73,7 @@ namespace Test.Application.Xunit.Handlers.PlcParameter.Create
             {
                 Id = new Guid(guid),
                 Name = randomString,
-                Address = randomString,
+                Address = randomNumber,
             };
             var result = await handler.Handle(item, CancellationToken.None);
             Assert.True(result.OperationStatus);

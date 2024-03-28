@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Domain.Modules.PlcDriver.Models;
+using Domain.Modules.Base.Enums;
+using Domain.Modules.PlcParameter.Enum;
 
 namespace Domain.Modules.PlcParameter.Models
 {
@@ -27,10 +29,16 @@ namespace Domain.Modules.PlcParameter.Models
         [Required]
         [StringLength(50)]
         public string? Name { get; set; }
-
-        public string? Address { get; set; }
-        public int Type { get; set; }
-
+        [StringLength(200)]
+        public string? Description { get; set; }
+        public int Address { get; set; }
+        public AccessModeTypeEnum AccessModeType { get; set; }
+        public ModbusTypeEnum ModbusTypeEnum { get; set; }
+        public ParameterTypeEnum ParameterType { get; set; }
+        public YesNoEnum ModbusVisibility { get; set; }
+        public YesNoEnum RecordToDatabase { get; set; }
+        public int MaximumValue { get; set; }
+        public int MinimumValue { get; set; }
         #endregion Fields
     }
 }
