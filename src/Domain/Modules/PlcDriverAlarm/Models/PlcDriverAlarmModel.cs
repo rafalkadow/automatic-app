@@ -6,11 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Domain.Modules.PlcDriver.Models;
+using Domain.Modules.PlcParameter.Enum;
+using Domain.Modules.PlcParameter.Models;
 
 namespace Domain.Modules.PlcDriverAlarm.Models
 {
     /// <summary>
-    /// PlcDriver Group
+    /// PlcDriver Alarm
     /// </summary>
     [Serializable]
 	[Index(nameof(Name), IsUnique = true)]
@@ -19,14 +21,22 @@ namespace Domain.Modules.PlcDriverAlarm.Models
 	{
 		#region Fields
 
-		[Required]
-		[StringLength(100)]
-		public string? Name { get; set; }
+        public Guid PlcDriverId { get; set; }
+        public virtual PlcDriverModel PlcDriver { get; set; }
 
-		[StringLength(50)]
-		public string? Description { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string? Name { get; set; }
 
-        public ICollection<PlcDriverModel> PlcDriver { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string? Description { get; set; }
+        public AlarmTypeEnum AlarmType { get; set; }
+
+        public Guid TriggerParameterId { get; set; }
+        public virtual PlcParameterModel TriggerParameter { get; set; }
+        public Guid ResetParameterId { get; set; }
+        public virtual PlcParameterModel ResetParameter { get; set; }
 
         #endregion Fields
     }
