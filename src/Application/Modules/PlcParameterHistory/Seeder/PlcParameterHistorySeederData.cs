@@ -32,7 +32,7 @@ namespace Application.Modules.PlcParameterHistory.Seeder
                     var random = new Random();
                     var generator = new RandomGenerator();
 
-                    var item = new CreatePlcParameterHistoryCommand() { Name = $"PlcParameterHistory{i + 1}", };
+                    var item = new CreatePlcParameterHistoryCommand() {  };
                     int index = random.Next(maxValue: groupList.Count);
                     item.PlcParameterId = groupList[index].Id;
                     

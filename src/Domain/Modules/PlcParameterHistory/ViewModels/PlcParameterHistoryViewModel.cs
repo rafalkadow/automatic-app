@@ -12,9 +12,8 @@ namespace Domain.Modules.PlcParameterHistory.ViewModels
         public Guid PlcParameterId { get; set; }
 
         public virtual PlcParameterModel PlcParameter { get; set; }
-        public string? Name { get; set; }
-        public string? Address { get; set; }
-        public int Type { get; set; }
+        public int Value { get; set; }
+        public DateTime DateAddUTC { get; set; }
 
         #endregion Fields
 

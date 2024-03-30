@@ -13,7 +13,6 @@ namespace Domain.Modules.PlcParameterHistory.Models
     /// PlcParameterHistory
     /// </summary>
     [Serializable]
-	[Index(nameof(Name), IsUnique = true)]
 	[Table(PlcParameterHistoryConsts.Table, Schema = BaseDatabaseConst.Base)]
 	public class PlcParameterHistoryModel : BaseModel, IEntity
 	{
@@ -24,14 +23,8 @@ namespace Domain.Modules.PlcParameterHistory.Models
         public Guid PlcParameterId { get; set; }
 
         public virtual PlcParameterModel PlcParameter { get; set; }
-        [Required]
-        [StringLength(50)]
-        public string? Name { get; set; }
-
-        public string? Address { get; set; }
-        public int Type { get; set; }
-        public decimal ParameterValue { get; set; }
-        public DateTime DateTimeReadUTC { get; set; }
+        public int Value { get; set; }
+        public DateTime DateAddUTC { get; set; }
         #endregion Fields
     }
 }

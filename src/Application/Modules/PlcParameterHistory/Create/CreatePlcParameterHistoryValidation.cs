@@ -18,13 +18,6 @@ namespace Application.Modules.PlcParameterHistory.Create
                    .NotEmpty().NotNull().WithMessage("Enter the field value 'Id'")
                    .Must(UniqueId)
                    .WithMessage("The 'Id' field must be unique");
-
-            RuleFor(u => u.Name).Cascade(CascadeMode.Stop)
-                   .NotEmpty().WithMessage("Enter the field value 'Name'")
-                   .Must(x => x.Length >= 1 && x.Length <= 20).WithMessage("Name should be between 1 and 20 characters")
-                   .Must(UniqueName)
-                   .WithMessage("The 'Name' field must be unique");
-
         
             RuleFor(u => u.PlcParameterId).Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("Enter the field value 'PlcParameterId'");
@@ -35,13 +28,6 @@ namespace Application.Modules.PlcParameterHistory.Create
         {
             var result = false;
             result = !DbContext.GetQueryable<PlcParameterHistoryModel>().AsNoTracking().Any(u => u.Id == Id);
-            return result;
-        }
-
-        private bool UniqueName(BasePlcParameterHistoryCommand model, string name)
-        {
-            var result = false;
-            result = !DbContext.GetQueryable<PlcParameterHistoryModel>().AsNoTracking().Any(u => u.Id != model.Id && u.Name == name);
             return result;
         }
     }

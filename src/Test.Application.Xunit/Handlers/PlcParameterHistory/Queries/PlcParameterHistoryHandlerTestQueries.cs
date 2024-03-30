@@ -59,7 +59,6 @@ namespace Test.Application.Xunit.Handlers.PlcParameterHistory.Queries
             var randomNumber = generator.RandomNumber(5, 100);
             var randomString = generator.RandomString(3);
             var item = new GetPlcParameterHistoryQueryAll();
-            item.Name = randomString;
             var result = handler.Handle(item, CancellationToken.None).Result;
             Assert.True(result.Count() == 0);
         }

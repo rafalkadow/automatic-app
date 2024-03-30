@@ -26,8 +26,6 @@ namespace Test.Application.Xunit.Handlers.PlcParameterHistory.Validation
 
             var model = new CreatePlcParameterHistoryCommand
             {
-                Name = name,
-                Address = address,
             };
 
             var validator = new CreatePlcParameterHistoryValidation(_dbContext, definitionModel);
@@ -51,8 +49,6 @@ namespace Test.Application.Xunit.Handlers.PlcParameterHistory.Validation
 
             var model = new CreatePlcParameterHistoryCommand
             {
-                Name = name,
-                Address = address,
             };
 
             var validator = new CreatePlcParameterHistoryValidation(_dbContext, definitionModel);

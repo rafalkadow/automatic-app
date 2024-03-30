@@ -25,8 +25,6 @@ namespace Test.Application.Xunit.Handlers.PlcParameterHistory.Update
             var item = new UpdatePlcParameterHistoryCommand
             {
                 Id = new Guid(guid),
-                Name = randomString,
-                Address = randomString
             };
 
             var result = handler.Handle(item, CancellationToken.None).Result;
@@ -49,8 +47,6 @@ namespace Test.Application.Xunit.Handlers.PlcParameterHistory.Update
             var item = new UpdatePlcParameterHistoryCommand
             {
                 Id = new Guid(guid),
-                Name = randomString,
-                Address = randomString
             };
 
             var result = handler.Handle(item, CancellationToken.None).Result;

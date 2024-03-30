@@ -18,7 +18,7 @@ namespace Domain.Modules.PlcParameter.Queries
         public ParameterTypeEnum ParameterType { get; set; }
         public YesNoEnum ModbusVisibility { get; set; }
         public YesNoEnum RecordToDatabase { get; set; }
-        public int MaximumValue { get; set; }
         public int MinimumValue { get; set; }
+        public int MaximumValue { get; set; }
     }
 }

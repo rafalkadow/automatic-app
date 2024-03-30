@@ -30,11 +30,6 @@ namespace Application.Modules.PlcParameterHistory.Queries
 					modelDb = await queryable
                        .FirstOrDefaultAsync(x => x.Id == filter.Id);
 				}
-				else if (!string.IsNullOrEmpty(filter.Name))
-				{
-					modelDb = await queryable
-                       .FirstOrDefaultAsync(x => x.Name == filter.Name);
-				}
 
                 if (modelDb != null)
                     model = Mapper.Map<GetPlcParameterHistoryResultById>(modelDb);

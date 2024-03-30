@@ -26,7 +26,6 @@ namespace Application.Modules.PlcParameterHistory.Queries
                 var list = DbContext.GetQueryable<PlcParameterHistoryModel>().Include(x => x.PlcParameter).AsNoTracking();
 
                 var query = list.Where(x =>
-                                (string.IsNullOrEmpty(filter.Name) || (filter.CaseSensitiveComparison ? x.Name.Contains(filter.Name) : x.Name.ToUpper().Contains(filter.Name.ToUpper()))) &&
                                 (filter.CreatedFrom == null || x.CreatedOnDateTimeUTC >= filter.CreatedFrom.Value.ToUniversalTime()) &&
                                 (filter.CreatedTo == null || x.CreatedOnDateTimeUTC <= filter.CreatedTo.Value.ToUniversalTime())
                            );

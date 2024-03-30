@@ -28,8 +28,6 @@ namespace Test.Application.Xunit.Handlers.PlcParameterHistory.Create
                 var randomString = generator.RandomString(3);
                 var item = new CreatePlcParameterHistoryCommand
                 {
-                    Name = randomString,
-                    Address = randomString,
                 };
 
                 var result = await handler.Handle(item, CancellationToken.None);
@@ -51,8 +49,6 @@ namespace Test.Application.Xunit.Handlers.PlcParameterHistory.Create
             var item = new CreatePlcParameterHistoryCommand
             {
                 Id = new Guid(guid),
-                Name = randomString,
-                Address = randomString,
             };
             var exception = await Assert.ThrowsAnyAsync<Exception>(() => handler.Handle(item, CancellationToken.None));
             Assert.True(!string.IsNullOrEmpty(exception.Message));
@@ -72,8 +68,6 @@ namespace Test.Application.Xunit.Handlers.PlcParameterHistory.Create
             var item = new CreatePlcParameterHistoryCommand
             {
                 Id = new Guid(guid),
-                Name = randomString,
-                Address = randomString,
             };
             var result = await handler.Handle(item, CancellationToken.None);
             Assert.True(result.OperationStatus);
