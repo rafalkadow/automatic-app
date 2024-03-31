@@ -11,9 +11,6 @@ namespace Domain.Interfaces
     public interface IDbContext
     {
         public DbSet<Audit> Audits { get; set; }
-        public DbSet<AccountModel> Account { get; set; }
-        public DbSet<PlcDriverGroupModel> PlcDriverGroup { get; set; }
-        public DbSet<PlcDriverModel> PlcDriver { get; set; }
         IQueryable<TEntity> GetQueryable<TEntity>()
             where TEntity : class, IEntity;
 

@@ -1,5 +1,4 @@
 ﻿using Domain.Interfaces;
-using Domain.Modules.Account;
 using Domain.Modules.Base.Models;
 using Domain.Modules.PlcDriverGroup.Models;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +15,15 @@ using Domain.Modules.PlcParameter.Models;
 using Domain.Modules.DictionaryOfParameterInterval.Models;
 using Domain.Modules.DictionaryOfParameterCategory.Models;
 using Domain.Modules.PlcDriverAlarm.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Domain.Modules.Identity;
+using Application.Common.Interfaces;
+using Domain.Modules.Account;
 
 namespace Persistence.Context
 {
-    public class ApplicationDbContext : DbContext, IDbContext
+    public class ApplicationDbContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>, IdentityUserRole<string>, IdentityUserLogin<string>, RoleClaim, IdentityUserToken<string>>, IDbContext
     {
         public DbSet<Audit> Audits { get; set; }
         public DbSet<AccountModel> Account { get; set; }
@@ -62,12 +66,7 @@ namespace Persistence.Context
                 property.SetScale(6);
             }
 
-            modelBuilder.Entity<PlcDriverModel>()
-                .HasOne(b => b.PlcDriverGroup)
-                .WithMany(a => a.PlcDriver)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
-
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(IAssemblyMarker).Assembly);
             base.OnModelCreating(modelBuilder);
 
             //UTC Time
@@ -97,14 +96,6 @@ namespace Persistence.Context
         }
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {
-            //configurationBuilder
-            //    .Properties<DateTime>()
-            //    .HaveConversion(typeof(UtcValueConverter));
-
-            //configurationBuilder
-            //    .Properties<DateTime?>()
-            //    .HaveConversion(typeof(UtcValueNullConverter));
-
             configurationBuilder
                 .Properties<Enum>()
                 .HaveConversion<string>();
@@ -272,6 +263,7 @@ namespace Persistence.Context
                     }
                 }
             }
+
             foreach (var auditEntry in auditEntries)
             {
                 await Audits.AddAsync(auditEntry.ToAudit());

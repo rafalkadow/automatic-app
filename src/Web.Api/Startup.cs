@@ -1,11 +1,13 @@
 using Domain.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Persistence.Context;
-using Application.Extensions;
-using Microsoft.OpenApi.Models;
+using Hangfire;
 using Microsoft.AspNetCore.Mvc;
-using Web.Api.Configuration;
-using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Localization;
+using Persistence.Context;
+using Web.Api.Extensions;
+using Application.Extensions;
+using Asp.Versioning;
 
 namespace Web.Api
 {
@@ -16,9 +18,11 @@ namespace Web.Api
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private readonly IConfiguration Configuration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+
         public void ConfigureServices(IServiceCollection services)
         {
             Application.ServiceCollection.Register(services);
@@ -33,104 +37,62 @@ namespace Web.Api
             }, ServiceLifetime.Scoped);
 
             services.AddIfrastructure();
-
-            services.Configure<ApiBehaviorOptions>(options =>
+            services.AddForwarding(Configuration);
+            services.AddLocalization(options =>
             {
-                options.SuppressModelStateInvalidFilter = true;
+                options.ResourcesPath = "Resources";
             });
+            services.AddCurrentUserService();
+            services.AddSerialization();
 
-            services.AddControllers();
+            services.AddServerLocalization();
+            services.AddIdentity();
+            services.AddJwtAuthentication(services.GetApplicationSettings(Configuration));
+            services.AddSignalR();
 
-            // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen(c =>
+            services.AddSharedInfrastructure(Configuration);
+            services.RegisterSwagger();
+            //services.AddInfrastructureMappings();
+            services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddHangfireServer();
+            services.AddControllers().AddValidators();
+            services.AddExtendedAttributesValidators();
+            //services.AddExtendedAttributesHandlers();
+            services.AddRazorPages();
+            services.AddApiVersioning(config =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "Employee API",
-                    Version = "v1",
-                    Description = "An API to perform Employee operations",
-                    TermsOfService = new Uri("https://example.com/terms"),
-                    Contact = new OpenApiContact
-                    {
-                        Name = "John Walkner",
-                        Email = "John.Walkner@gmail.com",
-                        Url = new Uri("https://twitter.com/jwalkner"),
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "Employee API LICX",
-                        Url = new Uri("https://example.com/license"),
-                    }
-                });
-
-                c.SchemaFilter<SwaggerSkipPropertyFilter>();
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Header,
-                    Description = "Please enter a valid token",
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.Http,
-                    BearerFormat = "JWT",
-                    Scheme = "Bearer"
-                });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type=ReferenceType.SecurityScheme,
-                                Id="Bearer"
-                            }
-                        },
-                        new string[]{}
-                    }
-                });
-     
-                var xmlFileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                c.SchemaFilter<SwaggerSchemaFilter>();
-
-                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFileName));
+                config.DefaultApiVersion = new ApiVersion(1, 0);
+                config.AssumeDefaultVersionWhenUnspecified = true;
+                config.ReportApiVersions = true;
             });
-            //services.AddSwaggerSetup();
-            services.AddCors(options =>
-            {
-                options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-            });
+            services.AddLazyCache();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IStringLocalizer<Startup> localizer)
         {
-  
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
+            app.UseForwarding(Configuration);
+            app.UseExceptionHandling(env);
             app.UseHttpsRedirection();
-
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-        
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CQRS Ninja API v1");
-            });
-
+            //app.UseMiddleware<ErrorHandlerMiddleware>();
+            app.UseBlazorFrameworkFiles();
+            app.UseStaticFiles();
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Files")),
+            //    RequestPath = new PathString("/Files")
+            //});
+            app.UseRequestLocalizationByCulture();
             app.UseRouting();
-
-            app.UseAuthorization();
             app.UseAuthentication();
-            app.UseCors("Open");
-            app.UseEndpoints(endpoints =>
+            app.UseAuthorization();
+            app.UseHangfireDashboard("/jobs", new DashboardOptions
             {
-                endpoints.MapDefaultControllerRoute();
+                DashboardTitle = localizer["Automatic App Jobs"],
+                //Authorization = new[] { new HangfireAuthorizationFilter() }
             });
+            //app.UseEndpoints();
+            app.ConfigureSwagger();
+            app.Initialize(Configuration);
         }
     }
 }
