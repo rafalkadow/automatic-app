@@ -8,6 +8,8 @@ using Persistence.Context;
 using Web.Api.Extensions;
 using Application.Extensions;
 using Asp.Versioning;
+using Persistence;
+using Shared.Interfaces.Services;
 
 namespace Web.Api
 {
@@ -34,7 +36,7 @@ namespace Web.Api
                 {
                     providerOptions.CommandTimeout(180);// <--Timeout in seconds
                 });
-            }, ServiceLifetime.Scoped);
+            }, ServiceLifetime.Scoped).AddTransient<IDatabaseSeeder, DatabaseSeeder>(); ;
 
             services.AddIfrastructure();
             services.AddForwarding(Configuration);

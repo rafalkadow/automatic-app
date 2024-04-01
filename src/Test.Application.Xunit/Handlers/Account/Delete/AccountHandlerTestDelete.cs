@@ -1,6 +1,4 @@
-﻿using Domain.Modules.Account.Commands;
-using Application.Modules.Account.Delete;
-using Test.Application.xUnit.Handlers.Base;
+﻿using Test.Application.xUnit.Handlers.Base;
 
 namespace Test.Application.Xunit.Handlers.Account.Delete
 {

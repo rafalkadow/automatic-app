@@ -1,21 +1,12 @@
 ﻿using AutoMapper;
-using Application.Modules.Account.Mappings;
 using Application.Utilities;
 using Domain.Interfaces;
-using Domain.Modules.Account;
-using Domain.Modules.Account.Consts;
-using Domain.Modules.PlcDriverGroup.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Domain.Modules.Base.Enums;
 using Persistence.Context;
-using Shared.Extensions.EnumExtensions;
-using Shared.Helpers;
 using Application.Modules.PlcDriverGroup.Mappings;
-using Domain.Modules.PlcDriver.Models;
 using Application.Modules.PlcDriver.Mappings;
 using Application.Modules.SignIn.Mappings;
-using Application.Extensions;
 
 namespace Test.Application.xUnit.Handlers.Base
 {
@@ -35,15 +26,15 @@ namespace Test.Application.xUnit.Handlers.Base
             _dbContext = new ApplicationDbContext(builder.Options, null, null);
             userAccessor = new UserAccessor
             {
-                UserGuid = AccountConsts.RootId,
-                UserName = AccountConsts.RootName,
+                //UserGuid = AccountConsts.RootId,
+                //UserName = AccountConsts.RootName,
             };
             dataSeed();
 
             var mapperConfiguration = new MapperConfiguration(config =>
             {
                 config.AddProfile(new SignInProfile());
-                config.AddProfile(new AccountProfile());
+                //config.AddProfile(new AccountProfile());
                 config.AddProfile(new PlcDriverGroupProfile());
                 config.AddProfile(new PlcDriverProfile());
             });
@@ -53,78 +44,78 @@ namespace Test.Application.xUnit.Handlers.Base
 
         private void dataSeed()
         {
-            if (_dbContext.Account.Any())
+            if (_dbContext.Users.Any())
                 return;
 
-            var testAccount = new List<AccountModel>()
-            {
-                new AccountModel()
-                {
-                    Id = new Guid("00000000-0000-0000-0000-000000000001"),
-                    AccountEmail = "test1@test.com",
-                    FirstName = "FirstName",
-                    LastName = "LastName",
-                    AccountPassword= "pass123".Encrypt(),
-                    AccountTypeId =  (int) AccountTypeEnum.Administrator,
-                    AccountTypeName =  AccountTypeEnum.Administrator.GetDescription(),
-                },
-                new AccountModel()
-                {
-                    AccountEmail = "test2@test.com",
-                    FirstName = "FirstName",
-                    LastName = "LastName",
-                    AccountPassword= "pass123".Encrypt(),
-                    AccountTypeId =  (int) AccountTypeEnum.Administrator,
-                    AccountTypeName =  AccountTypeEnum.Administrator.GetDescription(),
-                },
-            };
+            //var testAccount = new List<AccountModel>()
+            //{
+            //    new AccountModel()
+            //    {
+            //        Id = new Guid("00000000-0000-0000-0000-000000000001"),
+            //        AccountEmail = "test1@test.com",
+            //        FirstName = "FirstName",
+            //        LastName = "LastName",
+            //        AccountPassword= "pass123".Encrypt(),
+            //        AccountTypeId =  (int) AccountTypeEnum.Administrator,
+            //        AccountTypeName =  AccountTypeEnum.Administrator.GetDescription(),
+            //    },
+            //    new AccountModel()
+            //    {
+            //        AccountEmail = "test2@test.com",
+            //        FirstName = "FirstName",
+            //        LastName = "LastName",
+            //        AccountPassword= "pass123".Encrypt(),
+            //        AccountTypeId =  (int) AccountTypeEnum.Administrator,
+            //        AccountTypeName =  AccountTypeEnum.Administrator.GetDescription(),
+            //    },
+            //};
 
-            _dbContext.Account.AddRange(testAccount);
-            var generator = new RandomGenerator();
+            //_dbContext.Account.AddRange(testAccount);
+            //var generator = new RandomGenerator();
 
 
-            var testPlcDriverGroup = new List<PlcDriverGroupModel>();
+            //var testPlcDriverGroup = new List<PlcDriverGroupModel>();
 
-            for (int i = 0; i < 100; i++)
-            {
-                var randomString = generator.RandomString(3);
-                var item = new PlcDriverGroupModel()
-                {
-                    Name = randomString,
-                    Description = randomString,
-                };
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    var randomString = generator.RandomString(3);
+            //    var item = new PlcDriverGroupModel()
+            //    {
+            //        Name = randomString,
+            //        Description = randomString,
+            //    };
 
-                if (i == 0)
-                    item.Id = new Guid("00000000-0000-0000-0000-000000000001");
+            //    if (i == 0)
+            //        item.Id = new Guid("00000000-0000-0000-0000-000000000001");
 
-                testPlcDriverGroup.Add(item);
-            }
+            //    testPlcDriverGroup.Add(item);
+            //}
 
-            _dbContext.PlcDriverGroup.AddRange(testPlcDriverGroup);
-            _dbContext.SaveChanges();
+            //_dbContext.PlcDriverGroup.AddRange(testPlcDriverGroup);
+            //_dbContext.SaveChanges();
 
-            var testPlcDriver = new List<PlcDriverModel>();
-            int j = 0;
-            foreach (var item in _dbContext.PlcDriverGroup)
-            {
-                var randomString = generator.RandomString(3);
-                var product = new PlcDriverModel()
-                {
-                    Name = randomString,
-                    Description = randomString,
-                    PlcDriverGroupId = item.Id,
-                };
+            //var testPlcDriver = new List<PlcDriverModel>();
+            //int j = 0;
+            //foreach (var item in _dbContext.PlcDriverGroup)
+            //{
+            //    var randomString = generator.RandomString(3);
+            //    var product = new PlcDriverModel()
+            //    {
+            //        Name = randomString,
+            //        Description = randomString,
+            //        PlcDriverGroupId = item.Id,
+            //    };
 
-                if (j == 0)
-                    product.Id = new Guid("00000000-0000-0000-0000-000000000001");
+            //    if (j == 0)
+            //        product.Id = new Guid("00000000-0000-0000-0000-000000000001");
 
-                testPlcDriver.Add(product);
-                j++;
-            }
+            //    testPlcDriver.Add(product);
+            //    j++;
+            //}
 
-            _dbContext.PlcDriver.AddRange(testPlcDriver);
+            //_dbContext.PlcDriver.AddRange(testPlcDriver);
 
-            _dbContext.SaveChanges();
+            //_dbContext.SaveChanges();
         }
     }
 }

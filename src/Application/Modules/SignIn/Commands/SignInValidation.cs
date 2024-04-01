@@ -1,11 +1,11 @@
 ﻿using Application.Extensions;
 using Application.Modules.Base.Validations;
-using Domain.Modules.Account;
 using Domain.Modules.Base.Consts;
 using Domain.Modules.Base.Models;
 using Domain.Modules.SignIn.Commands;
 using FluentValidation;
 using Domain.Interfaces;
+using Domain.Modules.Identity;
 
 namespace Application.Modules.SignIn.Validations
 {
@@ -15,7 +15,7 @@ namespace Application.Modules.SignIn.Validations
         public SignInValidation(IDbContext dbContext, IDefinitionModel definitionModel)
             : base(dbContext, definitionModel)
         {
-            if (dbContext.GetQueryable<AccountModel>().Any())
+            if (dbContext.GetQueryable<User>().Any())
             {
                 RuleFor(u => u.SignInEmail).Cascade(CascadeMode.Stop)
                   .NotEmpty().WithMessage("Enter the field value 'E-mail'")
@@ -29,7 +29,7 @@ namespace Application.Modules.SignIn.Validations
         {
             var result = false;
             var password = model.SignInPassword.Encrypt();
-            result = DbContext.GetQueryable<AccountModel>().Any(u => u.AccountEmail == email && u.AccountPassword == password);
+            result = DbContext.GetQueryable<User>().Any(u => u.Email == email && u.PasswordHash == password);
             return result;
         }
     }

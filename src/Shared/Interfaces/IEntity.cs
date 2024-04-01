@@ -6,7 +6,7 @@ namespace Shared.Interfaces
     {
         Guid Id { get; set; }
 
-        Guid CreatedUserId { get; set; }
+        Guid? CreatedUserId { get; set; }
 
         string? CreatedUserName { get; set; }
 

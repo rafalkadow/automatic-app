@@ -15,7 +15,7 @@ namespace Domain.Modules.Base.Models
         public Guid Id { get; set; }
 
         [ForeignKey("CreatedUserId")]
-        public Guid CreatedUserId { get; set; }
+        public Guid? CreatedUserId { get; set; }
 
         [StringLength(200)]
         public string? CreatedUserName { get; set; }

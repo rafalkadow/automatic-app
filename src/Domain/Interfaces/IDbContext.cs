@@ -1,7 +1,4 @@
-﻿using Domain.Modules.Account;
-using Domain.Modules.Base.Models;
-using Domain.Modules.PlcDriverGroup.Models;
-using Domain.Modules.PlcDriver.Models;
+﻿using Domain.Modules.Base.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Shared.Interfaces;

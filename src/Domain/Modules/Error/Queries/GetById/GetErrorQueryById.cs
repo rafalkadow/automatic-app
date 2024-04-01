@@ -1,5 +1,4 @@
-﻿using Domain.Modules.Account.Queries;
-using MediatR;
+﻿using MediatR;
 using Shared.Interfaces;
 
 namespace Domain.Modules.Error.Queries

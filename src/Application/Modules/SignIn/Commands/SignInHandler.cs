@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
-using Application.Modules.Account.Queries;
 using Domain.Interfaces;
-using Domain.Modules.Account.Queries;
 using Domain.Modules.SignIn.Commands;
 using Shared.Models;
 using Application.Seeder;
 using Shared.Extensions.GeneralExtensions;
 using MediatR;
 using Application.Modules.Base.Commands;
+using Domain.Modules.PlcParameter.Models;
+using Microsoft.EntityFrameworkCore;
+using Domain.Modules.Identity;
 
 namespace Application.Modules.SignIn.Commands
 {
@@ -25,9 +26,7 @@ namespace Application.Modules.SignIn.Commands
             try
             {
                 await new DataSeeder().SeedDataOnApplication(DbContext, Mapper, UserAccessor, logger);
-
-                var commandHandler = new GetAccountQueryByIdHandler(DbContext, Mapper, UserAccessor);
-                var accountFind = await commandHandler.Handle(new GetAccountQueryById(command.SignInEmail), CancellationToken.None);
+                var accountFind = await DbContext.GetQueryable<User>().FirstOrDefaultAsync(x => x.Email == command.SignInEmail);
                 if (accountFind == null || accountFind.Id == Guid.Empty)
                 {
                     return new OperationResult(false);

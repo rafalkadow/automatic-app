@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Domain.Modules.Account;
+using Domain.Modules.Identity;
 using Domain.Modules.SignIn.Queries;
 using Domain.Modules.SignIn.ViewModels;
 
@@ -11,13 +11,13 @@ namespace Application.Modules.SignIn.Mappings
         {
             CreateMap<SignInViewModel, GetSignInResultById>().ReverseMap();
 
-            CreateMap<AccountModel, GetSignInResultById>()
-                .ForMember(dest => dest.EmailSignIn, act => act.MapFrom(src => src.AccountEmail))
-                .ForMember(dest => dest.PasswordSignIn, act => act.MapFrom(src => src.AccountPassword));
+            CreateMap<User, GetSignInResultById>()
+                .ForMember(dest => dest.EmailSignIn, act => act.MapFrom(src => src.Email))
+                .ForMember(dest => dest.PasswordSignIn, act => act.MapFrom(src => src.PasswordHash));
 
-            CreateMap<GetSignInResultById, AccountModel>()
-               .ForMember(dest => dest.AccountEmail, act => act.MapFrom(src => src.EmailSignIn))
-               .ForMember(dest => dest.AccountPassword, act => act.MapFrom(src => src.PasswordSignIn));
+            CreateMap<GetSignInResultById, User>()
+               .ForMember(dest => dest.Email, act => act.MapFrom(src => src.EmailSignIn))
+               .ForMember(dest => dest.PasswordHash, act => act.MapFrom(src => src.PasswordSignIn));
         }
     }
 }

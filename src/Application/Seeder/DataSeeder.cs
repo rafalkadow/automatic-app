@@ -2,12 +2,11 @@
 using Domain.Interfaces;
 using System.Diagnostics;
 using Shared.Models;
-using Domain.Modules.Account;
-using Application.Modules.Account.Seeder;
 using Shared.Enums;
 using NLog;
 using Application.Modules.PlcDriverGroup.Seeder;
 using Application.Modules.PlcDriver.Seeder;
+using Domain.Modules.Identity;
 
 namespace Application.Seeder
 {
@@ -18,16 +17,16 @@ namespace Application.Seeder
 			logger.Info($"SeedDataOnApplication()");
 			try
 			{
-				if (!dbContext.GetQueryable<AccountModel>().Any())
+				if (!dbContext.GetQueryable<User>().Any())
 				{
 					var watch = Stopwatch.StartNew();
 
-					await new AccountSeederData(dbContext, mapper, userAccessor).PrimaryUser();
+					//await new AccountSeederData(dbContext, mapper, userAccessor).PrimaryUser();
 
                     await new PlcDriverGroupSeederData(dbContext, mapper, userAccessor).Data();
                     await new PlcDriverSeederData(dbContext, mapper, userAccessor).Data();
 
-                    await new AccountSeederData(dbContext, mapper, userAccessor).Data();
+                    //await new AccountSeederData(dbContext, mapper, userAccessor).Data();
 
 					//ToAddData
 					watch.Stop();

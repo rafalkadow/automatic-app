@@ -34,9 +34,9 @@ namespace Domain.Modules.PlcDriverAlarm.Models
         public AlarmTypeEnum AlarmType { get; set; }
 
         public Guid TriggerParameterId { get; set; }
-        public virtual PlcParameterModel TriggerParameter { get; set; }
+        //public virtual PlcParameterModel TriggerParameter { get; set; }
         public Guid ResetParameterId { get; set; }
-        public virtual PlcParameterModel ResetParameter { get; set; }
+        //public virtual PlcParameterModel ResetParameter { get; set; }
 
         #endregion Fields
     }

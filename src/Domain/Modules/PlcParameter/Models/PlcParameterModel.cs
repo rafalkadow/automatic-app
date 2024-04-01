@@ -39,6 +39,7 @@ namespace Domain.Modules.PlcParameter.Models
         public YesNoEnum RecordToDatabase { get; set; }
         public int MinimumValue { get; set; }
         public int MaximumValue { get; set; }
+
         #endregion Fields
     }
 }

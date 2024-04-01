@@ -19,14 +19,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Domain.Modules.Identity;
 using Application.Common.Interfaces;
-using Domain.Modules.Account;
 
 namespace Persistence.Context
 {
-    public class ApplicationDbContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>, IdentityUserRole<string>, IdentityUserLogin<string>, RoleClaim, IdentityUserToken<string>>, IDbContext
+    public class ApplicationDbContext : IdentityDbContext<User, RoleApp, Guid, IdentityUserClaim<Guid>, IdentityUserRole<Guid>, IdentityUserLogin<Guid>, RoleAppClaim, IdentityUserToken<Guid>>, IDbContext
     {
         public DbSet<Audit> Audits { get; set; }
-        public DbSet<AccountModel> Account { get; set; }
         public DbSet<PlcDriverGroupModel> PlcDriverGroup { get; set; }
         public DbSet<PlcDriverModel> PlcDriver { get; set; }
         public DbSet<DictionaryOfParameterIntervalModel> DictionaryOfParameterInterval { get; set; }
@@ -52,12 +50,12 @@ namespace Persistence.Context
             _userAccessor = userAccessor;
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
             //kodowanie duże znaki - porównywanie w sql
-            modelBuilder.UseCollation("SQL_Latin1_General_CP1250_CS_AS");
+            builder.UseCollation("SQL_Latin1_General_CP1250_CS_AS");
 
-            foreach (var property in modelBuilder.Model.GetEntityTypes()
+            foreach (var property in builder.Model.GetEntityTypes()
                 .SelectMany(t => t.GetProperties())
                 .Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
             {
@@ -65,9 +63,6 @@ namespace Persistence.Context
                 property.SetPrecision(18);
                 property.SetScale(6);
             }
-
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(IAssemblyMarker).Assembly);
-            base.OnModelCreating(modelBuilder);
 
             //UTC Time
             var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
@@ -78,7 +73,7 @@ namespace Persistence.Context
                 v => v.HasValue ? v.Value.FromDefaultTimeZoneToUtc() : v,
                 v => v.HasValue ? DateTime.SpecifyKind(v.Value.FromUtcToDefaultTimeZone(), DateTimeKind.Local) : v);
 
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            foreach (var entityType in builder.Model.GetEntityTypes())
             {
 
                 foreach (var property in entityType.GetProperties())
@@ -93,6 +88,50 @@ namespace Persistence.Context
                     }
                 }
             }
+
+            builder.ApplyConfigurationsFromAssembly(typeof(IAssemblyMarker).Assembly);
+            base.OnModelCreating(builder);
+
+            builder.Entity<User>(entity =>
+            {
+                entity.ToTable(name: "Users", "Identity");
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            });
+
+            builder.Entity < RoleApp>(entity =>
+            {
+                entity.ToTable(name: "Roles", "Identity");
+            });
+
+            builder.Entity<IdentityUserRole<Guid>>(entity =>
+            {
+                entity.ToTable("UserRoles", "Identity");
+            });
+
+            builder.Entity<IdentityUserClaim<Guid>>(entity =>
+            {
+                entity.ToTable("UserClaims", "Identity");
+            });
+
+            builder.Entity<IdentityUserLogin<Guid>>(entity =>
+            {
+                entity.ToTable("UserLogins", "Identity");
+            });
+
+            builder.Entity<RoleAppClaim>(entity =>
+            {
+                entity.ToTable(name: "RoleClaims", "Identity");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.RoleClaims)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            builder.Entity<IdentityUserToken<Guid>>(entity =>
+            {
+                entity.ToTable("UserTokens", "Identity");
+            });
         }
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
         {

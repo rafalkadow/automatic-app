@@ -8,7 +8,7 @@ namespace Domain.Modules.Base.ViewModels
     {
         public Guid Id { get; set; }
 
-        public Guid CreatedUserId { get; set; }
+        public Guid? CreatedUserId { get; set; }
 
         public string? CreatedUserName { get; set; }
 

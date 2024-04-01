@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Domain.Interfaces;
-using Domain.Modules.Account;
 using Domain.Modules.SignIn.Queries;
 using Microsoft.EntityFrameworkCore;
 using Shared.Extensions.GeneralExtensions;
 using Application.Modules.Base.Queries;
 using MediatR;
+using Domain.Modules.Identity;
 
 namespace Application.Modules.SignIn.Queries
 {
@@ -23,8 +23,8 @@ namespace Application.Modules.SignIn.Queries
             GetSignInResultById? model = null;
             try
             {
-                AccountModel? modelDb = null;
-                var queryable = DbContext.GetQueryable<AccountModel>().AsNoTracking();
+                User? modelDb = null;
+                var queryable = DbContext.GetQueryable<User>().AsNoTracking();
                 modelDb = await queryable
                     .FirstOrDefaultAsync(x => x.Id == filter.Id);
 

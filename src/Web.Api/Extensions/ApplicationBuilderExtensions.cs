@@ -1,7 +1,5 @@
-﻿using System.Globalization;
-using Application.Configurations;
-using Microsoft.AspNetCore.Localization;
-using Web.Api.Extensions;
+﻿using Application.Configurations;
+using Shared.Interfaces.Services;
 
 namespace Web.Api.Extensions
 {
@@ -72,12 +70,12 @@ namespace Web.Api.Extensions
         {
             using var serviceScope = app.ApplicationServices.CreateScope();
 
-            //var initializers = serviceScope.ServiceProvider.GetServices<IDatabaseSeeder>();
+            var initializers = serviceScope.ServiceProvider.GetServices<IDatabaseSeeder>();
 
-            //foreach (var initializer in initializers)
-            //{
-            //    initializer.Initialize();
-            //}
+            foreach (var initializer in initializers)
+            {
+                initializer.Initialize();
+            }
 
             return app;
         }
