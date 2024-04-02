@@ -41,14 +41,14 @@ namespace Web.Api.Extensions
             });
         }
 
-        //internal static IApplicationBuilder UseEndpoints(this IApplicationBuilder app)
-        //    => app.UseEndpoints(endpoints =>
-        //    {
-        //        endpoints.MapRazorPages();
-        //        endpoints.MapControllers();
-        //        endpoints.MapFallbackToFile("index.html");
-        //        endpoints.MapHub<SignalRHub>(ApplicationConstants.SignalR.HubUrl);
-        //    });
+        internal static IApplicationBuilder UseEndpoints(this IApplicationBuilder app)
+            => app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllers();
+                endpoints.MapFallbackToFile("index.html");
+                //endpoints.MapHub<SignalRHub>(ApplicationConstants.SignalR.HubUrl);
+            });
 
         internal static IApplicationBuilder UseRequestLocalizationByCulture(this IApplicationBuilder app)
         {

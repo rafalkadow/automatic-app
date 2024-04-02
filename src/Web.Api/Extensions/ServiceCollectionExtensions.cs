@@ -26,6 +26,9 @@ using System.Security.Claims;
 using System.Text;
 using Web.Api.Localization;
 using Microsoft.AspNetCore.Identity;
+using Application.Interfaces.Services.Account;
+using Application.Interfaces.Services.Identity;
+using Persistence.Services.Identity;
 
 namespace Web.Api.Extensions
 {
@@ -240,6 +243,11 @@ namespace Web.Api.Extensions
 
         internal static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
+            services.AddTransient<IRoleClaimService, RoleClaimService>();
+            services.AddTransient<ITokenService, IdentityService>();
+            services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IUserService, UserService>();
             return services;
         }
 

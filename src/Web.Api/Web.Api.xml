@@ -4,5 +4,164 @@
         <name>Web.Api</name>
     </assembly>
     <members>
+        <member name="M:Web.Api.Controllers.Identity.AccountController.UpdateProfile(Domain.Requests.Identity.UpdateProfileRequest)">
+            <summary>
+            Update Profile
+            </summary>
+            <param name="model"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.AccountController.ChangePassword(Domain.Requests.Identity.ChangePasswordRequest)">
+            <summary>
+            Change Password
+            </summary>
+            <param name="model"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.AccountController.GetProfilePictureAsync(System.String)">
+            <summary>
+            Get Profile picture by Id
+            </summary>
+            <param name="userId"></param>
+            <returns>Status 200 OK </returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.RoleClaimController.GetAll">
+            <summary>
+            Get All Role Claims(e.g. Product Create Permission)
+            </summary>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.RoleClaimController.GetAllByRoleId(System.Guid)">
+            <summary>
+            Get All Role Claims By Id
+            </summary>
+            <param name="roleId"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.RoleClaimController.Post(Domain.Requests.Identity.RoleClaimRequest)">
+            <summary>
+            Add a Role Claim
+            </summary>
+            <param name="request"></param>
+            <returns>Status 200 OK </returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.RoleClaimController.Delete(System.Int32)">
+            <summary>
+            Delete a Role Claim
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.RoleController.GetAll">
+            <summary>
+            Get All Roles (basic, admin etc.)
+            </summary>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.RoleController.Post(Domain.Requests.Identity.RoleRequest)">
+            <summary>
+            Add a Role
+            </summary>
+            <param name="request"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.RoleController.Delete(System.Guid)">
+            <summary>
+            Delete a Role
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.RoleController.GetPermissionsByRoleId(System.String)">
+            <summary>
+            Get Permissions By Role Id
+            </summary>
+            <param name="roleId"></param>
+            <returns>Status 200 Ok</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.RoleController.Update(Domain.Requests.Identity.PermissionRequest)">
+            <summary>
+            Edit a Role Claim
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.TokenController.Get(Domain.Requests.Identity.TokenRequest)">
+            <summary>
+            Get Token (Email, Password)
+            </summary>
+            <param name="model"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.TokenController.Refresh(Domain.Requests.Identity.RefreshTokenRequest)">
+            <summary>
+            Refresh Token
+            </summary>
+            <param name="model"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.UserController.GetAll">
+            <summary>
+            Get Users Details
+            </summary>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.UserController.GetById(System.Guid)">
+            <summary>
+            Get User By Id
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.UserController.GetRolesAsync(System.Guid)">
+            <summary>
+            Get User Roles By Id
+            </summary>
+            <param name="id"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.UserController.UpdateRolesAsync(Domain.Requests.Identity.UpdateUserRolesRequest)">
+            <summary>
+            Update Roles for User
+            </summary>
+            <param name="request"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.UserController.RegisterAsync(Domain.Requests.Identity.RegisterRequest)">
+            <summary>
+            Register a User
+            </summary>
+            <param name="request"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.UserController.ConfirmEmailAsync(System.Guid,System.String)">
+            <summary>
+            Confirm Email
+            </summary>
+            <param name="userId"></param>
+            <param name="code"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.UserController.ToggleUserStatusAsync(Domain.Requests.Identity.ToggleUserStatusRequest)">
+            <summary>
+            Toggle User Status (Activate and Deactivate)
+            </summary>
+            <param name="request"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.UserController.ForgotPasswordAsync(Domain.Requests.Identity.ForgotPasswordRequest)">
+            <summary>
+            Forgot Password
+            </summary>
+            <param name="request"></param>
+            <returns>Status 200 OK</returns>
+        </member>
+        <member name="M:Web.Api.Controllers.Identity.UserController.ResetPasswordAsync(Domain.Requests.Identity.ResetPasswordRequest)">
+            <summary>
+            Reset Password
+            </summary>
+            <param name="request"></param>
+            <returns>Status 200 OK</returns>
+        </member>
     </members>
 </doc>

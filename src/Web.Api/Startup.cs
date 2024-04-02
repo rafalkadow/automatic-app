@@ -51,7 +51,7 @@ namespace Web.Api
             services.AddIdentity();
             services.AddJwtAuthentication(services.GetApplicationSettings(Configuration));
             services.AddSignalR();
-
+            services.AddApplicationServices();
             services.AddSharedInfrastructure(Configuration);
             services.RegisterSwagger();
             //services.AddInfrastructureMappings();
@@ -78,11 +78,7 @@ namespace Web.Api
             //app.UseMiddleware<ErrorHandlerMiddleware>();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
-            //app.UseStaticFiles(new StaticFileOptions
-            //{
-            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Files")),
-            //    RequestPath = new PathString("/Files")
-            //});
+
             app.UseRequestLocalizationByCulture();
             app.UseRouting();
             app.UseAuthentication();
@@ -90,9 +86,8 @@ namespace Web.Api
             app.UseHangfireDashboard("/jobs", new DashboardOptions
             {
                 DashboardTitle = localizer["Automatic App Jobs"],
-                //Authorization = new[] { new HangfireAuthorizationFilter() }
             });
-            //app.UseEndpoints();
+            app.UseEndpoints();
             app.ConfigureSwagger();
             app.Initialize(Configuration);
         }

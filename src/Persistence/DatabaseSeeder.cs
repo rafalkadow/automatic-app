@@ -3,7 +3,6 @@ using Domain.Constants.Role;
 using Domain.Constants.User;
 using Domain.Modules.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Persistence.Context;
 using Persistence.Helpers;
@@ -53,10 +52,10 @@ namespace Persistence
                 //Check if User Exists
                 var superUser = new User
                 {
-                    FirstName = "Mukesh",
-                    LastName = "Murugan",
-                    Email = "mukesh@.com",
-                    UserName = "mukesh",
+                    FirstName = "Rafal",
+                    LastName = "Kadow",
+                    Email = "rafal.kadow@gmail.com",
+                    UserName = "admin",
                     EmailConfirmed = true,
                     PhoneNumberConfirmed = true,
                     CreatedOnDateTimeUTC = DateTime.Now,
@@ -101,10 +100,10 @@ namespace Persistence
                 //Check if User Exists
                 var basicUser = new User
                 {
-                    FirstName = "John",
-                    LastName = "Doe",
-                    Email = "john@.com",
-                    UserName = "johndoe",
+                    FirstName = "User",
+                    LastName = "App",
+                    Email = "user@gmail.com",
+                    UserName = "user",
                     EmailConfirmed = true,
                     PhoneNumberConfirmed = true,
                     CreatedOnDateTimeUTC = DateTime.Now,
