@@ -29,6 +29,8 @@ using Microsoft.AspNetCore.Identity;
 using Application.Interfaces.Services.Account;
 using Application.Interfaces.Services.Identity;
 using Persistence.Services.Identity;
+using Application.Interfaces.Services;
+using Web.Api.Services;
 
 namespace Web.Api.Extensions
 {
@@ -202,7 +204,7 @@ namespace Web.Api.Extensions
         internal static IServiceCollection AddCurrentUserService(this IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-            //services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
             return services;
         }
 
@@ -219,13 +221,13 @@ namespace Web.Api.Extensions
                     options.User.RequireUniqueEmail = true;
 
 
-                    //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                    //options.Lockout.MaxFailedAccessAttempts = 5;
-                    //options.Lockout.AllowedForNewUsers = true;
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                    options.Lockout.MaxFailedAccessAttempts = 5;
+                    options.Lockout.AllowedForNewUsers = true;
 
-                    //options.User.AllowedUserNameCharacters =
-                    //    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                    //options.User.RequireUniqueEmail = true;
+                    options.User.AllowedUserNameCharacters =
+                        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                    options.User.RequireUniqueEmail = true;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
