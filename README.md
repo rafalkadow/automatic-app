@@ -1,5 +1,6 @@
 # automatic-app
-Aplikacji do automatyki przemysłowej. Umożliwiającej komunikacje poprzez modbus/tcp z sterownikami PLC.
+Aplikacji dla automatyki przemysłowej. Umożliwiającej komunikacje poprzez modbus/tcp z sterownikami PLC.
+Project is created for 100commit challenge by https://devmentors.io/ -> https://100commitow.pl/
 ## Logo
 <div align="center">
 
@@ -9,7 +10,7 @@ Aplikacji do automatyki przemysłowej. Umożliwiającej komunikacje poprzez modb
 <br/>
 
 ## Overview
-Założenia jeśli chodzi o elementy na któreg będzie się składał projekt :
+Założenia jeśli chodzi o elementy na którego będzie się składał projekt :
 * .NET MAUI
 * Onion Architecture
 * Entity Framework Core
@@ -43,4 +44,4 @@ Running Docker Container
 
 
 ## License
-Distributed under the MIT License.
+Dystrybuowane na licencji MIT.

@@ -1,5 +1,6 @@
 # automatic-app
-Aplikacji do automatyki przemysłowej. Umożliwiającej komunikacje poprzez modbus/tcp z sterownikami PLC.
+Applications for industrial automation. Enabling communication via Modbus/TCP with PLC controllers.
+Project is created for 100commit challenge by https://devmentors.io/ -> https://100commitow.pl/
 ## Logo
 <div align="center">
 
@@ -9,7 +10,7 @@ Aplikacji do automatyki przemysłowej. Umożliwiającej komunikacje poprzez modb
 <br/>
 
 ## Overview
-Założenia jeśli chodzi o elementy na któreg będzie się składał projekt :
+Assumptions regarding the elements that the project will consist of:
 * .NET MAUI
 * Onion Architecture
 * Entity Framework Core
