@@ -4,6 +4,11 @@
         <name>Web.Api</name>
     </assembly>
     <members>
+        <member name="T:Web.Api.Controllers.BaseApiController`1">
+            <summary>
+            Abstract BaseApi Controller Class
+            </summary>
+        </member>
         <member name="M:Web.Api.Controllers.Identity.AccountController.UpdateProfile(Domain.Requests.Identity.UpdateProfileRequest)">
             <summary>
             Update Profile

@@ -14,19 +14,19 @@ namespace Web.Api.Controllers.V1
     [Consumes("application/json")]
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class PlcParameterController : BaseApiController
+    public class PlcParameterController : BaseApiController<PlcParameterController>
     {
         private readonly ILogger<PlcParameterController> logger;
 
-        public PlcParameterController(
-            ILogger<PlcParameterController> logger,
-            IMediator mediator,
-            IMapper mapper,
-            IDbContext dbContext)
-            : base(mediator, mapper, dbContext)
-        {
-            this.logger = logger;
-        }
+        //public PlcParameterController(
+        //    ILogger<PlcParameterController> logger,
+        //    IMediator mediator,
+        //    IMapper mapper,
+        //    IDbContext dbContext)
+        //    : base(mediator, mapper, dbContext)
+        //{
+        //    this.logger = logger;
+        //}
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<GetPlcParameterResultAll>), (int)HttpStatusCode.OK)]

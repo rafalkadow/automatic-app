@@ -14,19 +14,19 @@ namespace Web.Api.Controllers.V1
     [Consumes("application/json")]
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class PlcDriverGroupController : BaseApiController
+    public class PlcDriverGroupController : BaseApiController<PlcDriverGroupController>
     {
         private readonly ILogger<PlcDriverGroupController> logger;
 
-        public PlcDriverGroupController(
-            ILogger<PlcDriverGroupController> logger,
-            IMediator mediator,
-            IMapper mapper,
-            IDbContext dbContext)
-            : base(mediator, mapper, dbContext)
-        {
-            this.logger = logger;
-        }
+        //public PlcDriverGroupController(
+        //    ILogger<PlcDriverGroupController> logger,
+        //    IMediator mediator,
+        //    IMapper mapper,
+        //    IDbContext dbContext)
+        //    : base(mediator, mapper, dbContext)
+        //{
+        //    this.logger = logger;
+        //}
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<GetPlcDriverGroupResultAll>), (int)HttpStatusCode.OK)]
