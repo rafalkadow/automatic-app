@@ -1,6 +1,6 @@
 # automatic-app
 Aplikacji dla automatyki przemysłowej. Umożliwiającej komunikacje poprzez modbus/tcp z sterownikami PLC.
-Project is created for 100commit challenge by https://devmentors.io/ -> https://100commitow.pl/
+Projekt został stworzony dla konkursu : https://devmentors.io/ -> https://100commitow.pl/
 ## Logo
 <div align="center">
 
