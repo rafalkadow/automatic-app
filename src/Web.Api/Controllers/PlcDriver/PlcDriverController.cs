@@ -4,12 +4,13 @@ using Domain.Interfaces;
 using Domain.Modules.PlcDriver.Commands;
 using Domain.Modules.PlcDriver.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Api.Exceptions;
 
 namespace Web.Api.Controllers.V1
 {
-    //[Authorize]
+    [Authorize]
     [Produces("application/json")]
     [Consumes("application/json")]
     [Route("api/v1/[controller]")]

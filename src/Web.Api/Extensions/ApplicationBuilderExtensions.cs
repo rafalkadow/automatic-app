@@ -1,4 +1,5 @@
 ﻿using Application.Configurations;
+using Application.Interfaces.Services;
 using Shared.Interfaces.Services;
 
 namespace Web.Api.Extensions

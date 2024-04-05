@@ -170,7 +170,7 @@ namespace Persistence.Services.Identity
         public async Task<IResult> UpdateRolesAsync(UpdateUserRolesRequest request)
         {
             var user = await _userManager.FindByIdAsync(request.UserId);
-            if (user.Email == "mukesh@blazorhero.com")
+            if (user.Email == "rafal.kadow@gmail.com")
             {
                 return await Result.FailAsync(_localizer["Not Allowed."]);
             }

@@ -10,6 +10,8 @@ using Application.Extensions;
 using Asp.Versioning;
 using Persistence;
 using Shared.Interfaces.Services;
+using Application;
+using Application.Interfaces.Services;
 
 namespace Web.Api
 {
@@ -22,12 +24,9 @@ namespace Web.Api
 
         private readonly IConfiguration Configuration;
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-
         public void ConfigureServices(IServiceCollection services)
         {
-            Application.ServiceCollection.Register(services);
+            services.Register();
 
             services.AddDbContext<IDbContext, ApplicationDbContext>(cfg =>
             {

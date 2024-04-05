@@ -31,6 +31,8 @@ using Application.Interfaces.Services.Identity;
 using Persistence.Services.Identity;
 using Application.Interfaces.Services;
 using Web.Api.Services;
+using Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Web.Api.Extensions
 {
@@ -193,13 +195,13 @@ namespace Web.Api.Extensions
             return services;
         }
 
-        //internal static IServiceCollection AddDatabase(
-        //    this IServiceCollection services,
-        //    IConfiguration configuration)
-        //    => services
-        //        .AddDbContext<BlazorHeroContext>(options => options
-        //            .UseSqlServer(configuration.GetConnectionString("DefaultConnection")))
-        //    .AddTransient<IDatabaseSeeder, DatabaseSeeder>();
+        internal static IServiceCollection AddDatabase(
+            this IServiceCollection services,
+            IConfiguration configuration)
+            => services
+                .AddDbContext<ApplicationDbContext>(options => options
+                    .UseSqlServer(configuration.GetConnectionString("DefaultConnection")))
+            .AddTransient<IDatabaseSeeder, DatabaseSeeder>();
 
         internal static IServiceCollection AddCurrentUserService(this IServiceCollection services)
         {
@@ -221,13 +223,13 @@ namespace Web.Api.Extensions
                     options.User.RequireUniqueEmail = true;
 
 
-                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                    options.Lockout.MaxFailedAccessAttempts = 5;
-                    options.Lockout.AllowedForNewUsers = true;
+                    //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                    //options.Lockout.MaxFailedAccessAttempts = 5;
+                    //options.Lockout.AllowedForNewUsers = true;
 
-                    options.User.AllowedUserNameCharacters =
-                        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                    options.User.RequireUniqueEmail = true;
+                    //options.User.AllowedUserNameCharacters =
+                    //    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                    //options.User.RequireUniqueEmail = true;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();

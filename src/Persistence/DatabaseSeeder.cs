@@ -1,4 +1,5 @@
-﻿using Domain.Constants.Permission;
+﻿using Application.Interfaces.Services;
+using Domain.Constants.Permission;
 using Domain.Constants.Role;
 using Domain.Constants.User;
 using Domain.Modules.Identity;
@@ -6,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Persistence.Context;
 using Persistence.Helpers;
-using Shared.Interfaces.Services;
 
 namespace Persistence
 {

@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using NLog.Web;
+using System.Security.Authentication;
 
 namespace Web.Api
 {
@@ -10,8 +12,7 @@ namespace Web.Api
             logger.Info("Started program.");
             try
             {
-                var host = CreateHostBuilder(args).Build();
-                host.Run();
+                CreateHostBuilder(args).Build().Run();
             }
             catch (Exception exception)
             {
@@ -29,7 +30,17 @@ namespace Web.Api
                 .UseNLog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.ConfigureKestrel(serverOptions =>
+                    {
+                        serverOptions.Limits.MinRequestBodyDataRate = new MinDataRate(100, TimeSpan.FromSeconds(10));
+                        serverOptions.Limits.MinResponseDataRate = new MinDataRate(100, TimeSpan.FromSeconds(10));
+                        serverOptions.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(2);
+                        serverOptions.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(1);
+                        serverOptions.ConfigureHttpsDefaults(listenOptions =>
+                        {
+                            listenOptions.SslProtocols = SslProtocols.Tls12;
+                        });
+                    }).UseStartup<Startup>();
                 });
 
     }
