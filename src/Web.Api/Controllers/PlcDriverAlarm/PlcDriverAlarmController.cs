@@ -13,9 +13,6 @@ namespace Web.Api.Controllers.V1
     [ApiController]
     public class PlcDriverAlarmController : BaseApiController<PlcDriverAlarmController>
     {
-        private readonly ILogger<PlcDriverAlarmController> logger;
-
-
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<GetPlcDriverAlarmResultAll>), (int)HttpStatusCode.OK)]
         [ProducesErrorResponseType(typeof(BaseResponseDTO))]

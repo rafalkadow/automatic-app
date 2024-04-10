@@ -17,18 +17,6 @@ namespace Web.Api.Controllers.V1
     [ApiController]
     public class PlcDriverController : BaseApiController<PlcDriverController>
     {
-        private readonly ILogger<PlcDriverController> logger;
-
-        //public PlcDriverController(
-        //    ILogger<PlcDriverController> logger,
-        //    IMediator mediator,
-        //    IMapper mapper,
-        //    IDbContext dbContext)
-        //    : base(mediator, mapper, dbContext)
-        //{
-        //    this.logger = logger;
-        //}
-
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<GetPlcDriverResultAll>), (int)HttpStatusCode.OK)]
         [ProducesErrorResponseType(typeof(BaseResponseDTO))]
